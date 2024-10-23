@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Stopwatch</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .stopwatch {
+            text-align: center;
+        }
+        .time {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        button {
+            font-size: 16px;
+            padding: 10px 20px;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="stopwatch">
+        <div class="time" id="display">00:00:00</div>
+        <button onclick="startStopwatch()">Start</button>
+        <button onclick="stopStopwatch()">Stop</button>
+        <button onclick="resetStopwatch()">Reset</button>
+    </div>
+
+    <script>
+        let startTime, updatedTime, difference, tInterval;
+        let running = false;
+
+        function startStopwatch() {
+            if (!running) {
+                startTime = new Date().getTime();
+                tInterval = setInterval(updateDisplay, 1000);
+                running = true;
+            }
+        }
+
+        function updateDisplay() {
+            updatedTime = new Date().getTime();
+            difference = updatedTime - startTime;
+            let hours = Math.floor(difference / (1000 * 60 * 60));
+            let minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            let seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+            document.getElementById("display").innerText = 
+                (hours < 10 ? "0" + hours : hours) + ":" + 
+                (minutes < 10 ? "0" + minutes : minutes) + ":" + 
+                (seconds < 10 ? "0" + seconds : seconds);
+        }
+
+        function stopStopwatch() {
+            clearInterval(tInterval);
+            running = false;
+        }
+
+        function resetStopwatch() {
+            clearInterval(tInterval);
+            document.getElementById("display").innerText = "00:00:00";
+            running = false;
+        }
+    </script>
+</body>
+</html>
