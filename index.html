@@ -21,29 +21,33 @@
             font-size: 48px;
             margin-bottom: 20px;
         }
-        button {
-            font-size: 16px;
-            padding: 10px 20px;
-            margin: 5px;
-        }
     </style>
 </head>
 <body>
     <div class="stopwatch">
-        <div class="time" id="display">00:00:00</div>
-        <button onclick="startStopwatch()">Start</button>
-        <button onclick="stopStopwatch()">Stop</button>
-        <button onclick="resetStopwatch()">Reset</button>
+        <div class="time" id="display">00:00:00.000</div>
+        <p>Click or tap anywhere to start/stop the stopwatch.</p>
     </div>
 
     <script>
         let startTime, updatedTime, difference, tInterval;
         let running = false;
 
+        // Function to start or stop the stopwatch when the screen is clicked or tapped
+        document.body.addEventListener('click', toggleStopwatch);
+
+        function toggleStopwatch() {
+            if (!running) {
+                startStopwatch();
+            } else {
+                stopStopwatch();
+            }
+        }
+
         function startStopwatch() {
             if (!running) {
-                startTime = new Date().getTime();
-                tInterval = setInterval(updateDisplay, 1000);
+                startTime = new Date().getTime() - (difference || 0); // Maintain time if restarting
+                tInterval = setInterval(updateDisplay, 10); // Update every 10 milliseconds
                 running = true;
             }
         }
@@ -54,11 +58,13 @@
             let hours = Math.floor(difference / (1000 * 60 * 60));
             let minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
             let seconds = Math.floor((difference % (1000 * 60)) / 1000);
+            let milliseconds = Math.floor((difference % 1000)); // Extract milliseconds
 
             document.getElementById("display").innerText = 
                 (hours < 10 ? "0" + hours : hours) + ":" + 
                 (minutes < 10 ? "0" + minutes : minutes) + ":" + 
-                (seconds < 10 ? "0" + seconds : seconds);
+                (seconds < 10 ? "0" + seconds : seconds) + "." + 
+                (milliseconds < 100 ? (milliseconds < 10 ? "00" + milliseconds : "0" + milliseconds) : milliseconds); // Format milliseconds
         }
 
         function stopStopwatch() {
@@ -68,8 +74,9 @@
 
         function resetStopwatch() {
             clearInterval(tInterval);
-            document.getElementById("display").innerText = "00:00:00";
+            document.getElementById("display").innerText = "00:00:00.000";
             running = false;
+            difference = 0;
         }
     </script>
 </body>
