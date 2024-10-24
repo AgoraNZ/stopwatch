@@ -3,81 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Stopwatch</title>
+    <title>ML Per Pulse Calculator with Stopwatch</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
+            margin: 50px;
         }
-        .stopwatch {
-            text-align: center;
-        }
-        .time {
-            font-size: 48px;
+        .container {
+            display: flex;
+            justify-content: center;
             margin-bottom: 20px;
+        }
+        .input-box {
+            margin: 0 10px;
+        }
+        input {
+            width: 100px;
+            padding: 5px;
+            font-size: 1em;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+        #stopwatch {
+            font-size: 2em;
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px;
+            font-size: 1em;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <div class="stopwatch">
-        <div class="time" id="display">00:00:00.000</div>
-        <p>Click or tap anywhere to start/stop the stopwatch.</p>
+
+    <h1>ML Per Pulse Calculator with Stopwatch</h1>
+    <div class="container">
+        <div class="input-box">
+            <label for="pulses">Pulses:</label>
+            <input type="number" id="pulses" placeholder="Enter pulses" oninput="calculate()" required>
+        </div>
+        <div class="input-box">
+            <label for="litres">Litres:</label>
+            <input type="number" id="litres" placeholder="Enter litres" oninput="calculate()" required>
+        </div>
     </div>
 
+    <div id="result">ML Per Pulse: <span id="resultValue"></span></div>
+
+    <div id="stopwatch">Time: <span id="timerValue">0.00</span> seconds</div>
+    <button onclick="startStopwatch()">Start/Stop</button>
+
     <script>
-        let startTime, updatedTime, difference, tInterval;
+        let intervalId;
+        let elapsedTime = 0;
         let running = false;
 
-        // Function to start or stop the stopwatch when the screen is clicked or tapped
-        document.body.addEventListener('click', toggleStopwatch);
+        function calculate() {
+            const pulses = parseFloat(document.getElementById('pulses').value);
+            const litres = parseFloat(document.getElementById('litres').value);
+            const resultField = document.getElementById('resultValue');
 
-        function toggleStopwatch() {
-            if (!running) {
-                startStopwatch();
+            if (pulses > 0) {
+                const millilitresPerPulse = litres / pulses; // Correct calculation: litres divided by pulses
+                resultField.textContent = millilitresPerPulse.toFixed(2); // Show result with 2 decimal places
             } else {
-                stopStopwatch();
+                resultField.textContent = ''; // Clear result if pulses are 0 or invalid
             }
         }
 
         function startStopwatch() {
-            if (!running) {
-                startTime = new Date().getTime() - (difference || 0); // Maintain time if restarting
-                tInterval = setInterval(updateDisplay, 10); // Update every 10 milliseconds
+            const timerDisplay = document.getElementById('timerValue');
+            
+            if (running) {
+                clearInterval(intervalId);
+                running = false;
+            } else {
+                elapsedTime = 0; // Reset the stopwatch
                 running = true;
+                intervalId = setInterval(function() {
+                    elapsedTime += 0.01; // Increment time in hundredths of a second
+                    timerDisplay.textContent = elapsedTime.toFixed(2); // Display the time
+                }, 10); // 10ms interval for accurate 1/100 second updates
             }
         }
-
-        function updateDisplay() {
-            updatedTime = new Date().getTime();
-            difference = updatedTime - startTime;
-            let hours = Math.floor(difference / (1000 * 60 * 60));
-            let minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-            let seconds = Math.floor((difference % (1000 * 60)) / 1000);
-            let milliseconds = Math.floor((difference % 1000)); // Extract milliseconds
-
-            document.getElementById("display").innerText = 
-                (hours < 10 ? "0" + hours : hours) + ":" + 
-                (minutes < 10 ? "0" + minutes : minutes) + ":" + 
-                (seconds < 10 ? "0" + seconds : seconds) + "." + 
-                (milliseconds < 100 ? (milliseconds < 10 ? "00" + milliseconds : "0" + milliseconds) : milliseconds); // Format milliseconds
-        }
-
-        function stopStopwatch() {
-            clearInterval(tInterval);
-            running = false;
-        }
-
-        function resetStopwatch() {
-            clearInterval(tInterval);
-            document.getElementById("display").innerText = "00:00:00.000";
-            running = false;
-            difference = 0;
-        }
     </script>
+
 </body>
 </html>
