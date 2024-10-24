@@ -42,7 +42,7 @@
 </head>
 <body>
 
-    <h1>ML Per Pulse Calculator with Stopwatch</h1>
+    <h1>ML Per Pulse Calculator</h1>
     <div class="container">
         <div class="input-box">
             <label for="pulses">Pulses:</label>
@@ -56,8 +56,9 @@
 
     <div id="result">ML Per Pulse: <span id="resultValue"></span></div>
 
+    <h1>Stopwatch</h1>
     <div id="stopwatch">Time: <span id="timerValue">0.00</span> seconds</div>
-    <button onclick="startStopwatch()">Start/Stop</button>
+    <button id="startStopButton" onclick="startStopReset()">Press to Start/Stop/Reset</button>
 
     <script>
         let intervalId;
@@ -77,18 +78,21 @@
             }
         }
 
-        function startStopwatch() {
+        function startStopReset() {
             const timerDisplay = document.getElementById('timerValue');
-            
+            const startStopButton = document.getElementById('startStopButton');
+
             if (running) {
-                clearInterval(intervalId);
+                clearInterval(intervalId); // Stop the timer
                 running = false;
+                startStopButton.textContent = "Press to Start/Stop/Reset";
             } else {
-                elapsedTime = 0; // Reset the stopwatch
+                elapsedTime = 0; // Reset the stopwatch to zero
+                timerDisplay.textContent = elapsedTime.toFixed(2);
                 running = true;
                 intervalId = setInterval(function() {
                     elapsedTime += 0.01; // Increment time in hundredths of a second
-                    timerDisplay.textContent = elapsedTime.toFixed(2); // Display the time
+                    timerDisplay.textContent = elapsedTime.toFixed(2); // Update display
                 }, 10); // 10ms interval for accurate 1/100 second updates
             }
         }
