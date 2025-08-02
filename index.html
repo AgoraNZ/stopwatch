@@ -15,26 +15,19 @@
       color: #15597b;
       padding: 13px 12px 13px 16px;
       border-radius: 8px;
-      margin-bottom: 14px;
+      margin-bottom: 18px;
       font-size: 1.03em;
       box-shadow: 0 2px 8px #c8e2f425;
     }
-    .wizardcard {
-      background: #fafdff;
-      border-left: 5px solid #58c7f6;
-      color: #136789;
-      padding: 15px 15px 18px 16px;
-      border-radius: 10px;
-      margin-bottom: 16px;
-      font-size: 1.06em;
-      box-shadow: 0 2px 12px #b9e3fa13;
+    .wizardselect {
+      margin-bottom: 18px;
+      text-align: center;
     }
-    .wizardcard-title {font-weight:bold; font-size:1.10em; color:#127cab; margin-bottom:6px;}
-    .season-btns { display: flex; flex-direction: column; gap: 14px; margin: 10px 0 16px 0;}
+    .season-btns { display: flex; flex-direction: column; gap: 18px; margin: 18px 0;}
     .season-btn {
       display: flex; align-items: center; justify-content: center;
-      font-size: 1.13em; font-weight: bold;
-      padding: 15px 0; border-radius: 12px;
+      font-size: 1.15em; font-weight: bold;
+      padding: 17px 0; border-radius: 14px;
       border: none; cursor: pointer; transition: box-shadow 0.2s, background 0.2s;
       box-shadow: 0 2px 10px #b0c4d711;
       background: #e8f1fa;
@@ -43,10 +36,11 @@
     .season-btn.active, .season-btn:focus { background: #cbefff; box-shadow: 0 2px 16px #92ccf6b5; outline: none;}
     .season-btn.recommended { border: 2.5px solid #1798bc; background: #d4f4ff;}
     .wiz-btn {
-      font-size: 1.07em; font-weight: bold; padding: 12px 30px;
+      font-size: 1.07em; font-weight: bold; padding: 13px 30px;
       border-radius: 11px; border: none;
       background: #e0f5fb; color: #115473; cursor: pointer;
-      box-shadow: 0 1px 8px #b7d2df1a; margin: 14px 0 0 0;
+      box-shadow: 0 1px 8px #b7d2df1a; margin: 20px auto 0 auto;
+      display: inline-block;
       transition: background 0.18s;
     }
     .wiz-btn:active, .wiz-btn:focus { background: #bfe8f9;}
@@ -56,25 +50,18 @@
       color: #197844;
       padding: 13px 12px 13px 16px;
       border-radius: 8px;
-      margin-bottom: 10px;
-      font-size: 1.03em;
+      margin-bottom: 18px;
+      font-size: 1.07em;
       box-shadow: 0 2px 8px #c5f7da25;
+      margin-top: 12px;
     }
     .fanbox b, .infobox b { color: #13749a; }
-    .summary {
-      margin: 22px auto 0 auto; display: block; font-size: 1.07em;
-      background: #f8fbfc; color: #15719b; border-radius: 10px; padding: 16px 14px; text-align: left;
-      border: 1.2px solid #d5eaf7;
-      box-shadow: 0 1px 6px #bdddfd19;
-    }
-    .summary-title {font-weight: bold; font-size: 1.07em; color: #145578; margin-bottom: 8px;}
-    .summary ul {margin: 8px 0 0 0; padding: 0 0 0 18px;}
-    .summary li {margin-bottom: 7px;}
+    .fanbox .tip { color: #387e48; display: block; margin-top: 10px; }
     @media (max-width: 600px) {
       .container { padding: 11px 2vw 12px 2vw;}
-      .season-btn { font-size: 1.07em; padding: 12px 0;}
-      .wiz-btn { padding: 11px 0; width: 46vw;}
-      .infobox, .fanbox, .wizardcard { font-size: 0.98em; }
+      .season-btn { font-size: 1.09em; padding: 14px 0;}
+      .wiz-btn { padding: 12px 0; width: 46vw;}
+      .infobox, .fanbox { font-size: 1em; }
     }
   </style>
   <script>
@@ -104,43 +91,31 @@
       In summer, DVS circulates fresh air to prevent stuffiness and help manage humidity. The settings below keep your home comfortable and fresh—even on warm days.`
     };
 
-    // Fan speed box: exact recommended fan speed + how/why to adjust for each season
-    const FAN_ADJUST = {
-      Winter: `<b>Set fan speed to 3–4 bars.</b><br>
-      This keeps enough air moving to stop windows fogging and remove moisture in winter.<br><br>
-      <b>How to adjust:</b><br>
-      MENU → System → Profiles → Day or Night → Fan Control → Fan Speed<br><br>
-      <b>If you increase fan speed (UP):</b> Clears condensation faster but may cool the house.<br>
-      <b>If you decrease fan speed (DOWN):</b> Warms the house but may let windows fog.<br>
-      <span style="color:#387e48;">If windows fog, increase fan speed.<br>If home is too cool, reduce fan speed.</span>`,
-      Summer: `<b>Set fan speed to 2–3 bars.</b><br>
-      This gives gentle airflow to keep your house fresh and not too warm in summer.<br><br>
-      <b>How to adjust:</b><br>
-      MENU → System → Profiles → Day or Night → Fan Control → Fan Speed<br><br>
-      <b>If you increase fan speed (UP):</b> Makes house feel fresher, but can bring in more warm air from roof.<br>
-      <b>If you decrease fan speed (DOWN):</b> Lowers airflow if house feels too warm.<br>
-      <span style="color:#387e48;">If house is stuffy, increase fan speed.<br>If house is too warm, reduce fan speed.</span>`
-    };
-
-    // Wizard card, summarizing setup for each season, always above fan box
-    const WIZARD_CARD = {
+    // Fan speed box: simple, helpful, season-specific, in the exact wording style you want
+    const FAN_BOX = {
       Winter: `
-        <div class="wizardcard-title">Winter Settings (June–August)</div>
-        <div>Use the wizard below to set:<br>
-        <b>Temp 23°C, Fan 3–4 bars, Heat Recovery ON, Heat Retention OFF, Humidity High, Instant.</b><br>
-        <span style="color:#1473a7;">Keeps windows clear and home dry in winter.</span></div>
-        <button class="wiz-btn" onclick="startWizard()">Open Winter Setup Wizard</button>
+        <b>Set fan speed to 3–4 bars.</b><br>
+        This keeps enough air moving to stop windows fogging and remove moisture in winter.<br><br>
+        <b>How to adjust:</b><br>
+        MENU → System → Profiles → Day or Night → Fan Control → Fan Speed<br>
+        <span class="tip">
+          If windows fog, increase fan speed.<br>
+          If home is too cool, reduce fan speed.
+        </span>
       `,
       Summer: `
-        <div class="wizardcard-title">Summer Settings (Dec–Feb)</div>
-        <div>Use the wizard below to set:<br>
-        <b>Temp 19°C, Fan 2–3 bars, Heat Recovery OFF, Heat Retention OFF, Humidity Med, 10min.</b><br>
-        <span style="color:#1473a7;">Keeps your home fresh and comfortable in summer.</span></div>
-        <button class="wiz-btn" onclick="startWizard()">Open Summer Setup Wizard</button>
+        <b>Set fan speed to 2–3 bars.</b><br>
+        This gives gentle airflow to keep your house fresh and not too warm in summer.<br><br>
+        <b>How to adjust:</b><br>
+        MENU → System → Profiles → Day or Night → Fan Control → Fan Speed<br>
+        <span class="tip">
+          If house is stuffy, increase fan speed.<br>
+          If house is too warm, reduce fan speed.
+        </span>
       `
     };
 
-    // Each wizard step as an object with .title, .action, .desc, and .summary (if last step)
+    // Each wizard step as before
     const STEPS = {
       Winter: [
         { title: "Start Day Settings", action: "From the main screen, press MENU. Select 'System'. Press OK. Select 'Profiles'. Press OK.", desc: "" },
@@ -222,8 +197,17 @@
       if (step === 0) {
         main.innerHTML = `
           <div class="infobox" id="faninfo">${FAN_INFO[selected]}</div>
-          <div class="wizardcard" id="wizardcard">${WIZARD_CARD[selected]}</div>
-          <div class="fanbox" id="fanbox">${FAN_ADJUST[selected]}</div>
+          <div class="wizardselect">
+            <div style="text-align:center; font-size:1.05em; margin-bottom: 4px;">
+              <b>Select the season to set up:</b>
+            </div>
+            <div class="season-btns">
+              <button class="season-btn${selected==="Winter"?" recommended active":""}" onclick="selectSeason('Winter')">❄️ Winter<br><span style='font-size:0.9em; font-weight:400'>June–August</span></button>
+              <button class="season-btn${selected==="Summer"?" recommended active":""}" onclick="selectSeason('Summer')">☀️ Summer<br><span style='font-size:0.9em; font-weight:400'>Dec–Feb</span></button>
+            </div>
+            <button class="wiz-btn" onclick="startWizard()">Start Setup</button>
+          </div>
+          <div class="fanbox" id="fanbox">${FAN_BOX[selected]}</div>
         `;
       } else {
         const meta = SEASON_META[selected];
