@@ -2,30 +2,87 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>DVS EC Controller Seasonal Setup NZ</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+  <title>DVS Seasonal Setup – Simple Steps (NZ)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <style>
-    html, body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f7fb; margin: 0; padding: 0;}
-    .container { max-width: 500px; background: #fff; margin: 0 auto; border-radius: 16px; box-shadow: 0 2px 20px #23334c13; padding: 25px 5vw 22px 5vw; margin-top: 22px; margin-bottom: 18px;}
-    h1 { text-align: center; color: #18395d; font-size: 1.12em; margin-bottom: 11px;}
-    .season { text-align: center; font-size: 1.09em; margin: 10px 0 19px 0; color: #19787f; font-weight: 600;}
-    .instructions { background: #f9fafc; border: 1px solid #d5e2ef; border-radius: 12px; padding: 15px 10px 15px 15px; margin-top: 13px; font-size: 1.06em; line-height: 1.7; color: #223042; box-shadow: 0 2px 8px #a3bbcc12;}
-    .step { margin-bottom: 14px; font-size: 1.07em;}
-    .substep {margin-left: 17px; font-size: 1em;}
-    .profile {margin: 4px 0 2px 0; font-weight: 500; color: #135c8b;}
-    .sectionhead {font-size: 1.09em; margin-top: 18px; color: #125e7c; margin-bottom: 3px;}
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f4f7fb;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 440px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 2px 18px #2233440e;
+      padding: 21px 6vw 18px 6vw;
+      margin-top: 18px;
+      margin-bottom: 14px;
+    }
+    h1 {
+      text-align: center;
+      color: #14476d;
+      font-size: 1.13em;
+      margin-bottom: 9px;
+      font-weight: 600;
+    }
+    .season {
+      text-align: center;
+      font-size: 1.09em;
+      color: #15778b;
+      font-weight: 500;
+      margin-bottom: 19px;
+      letter-spacing: 0.01em;
+    }
+    .block {
+      margin: 17px 0 15px 0;
+      padding: 15px 12px 12px 12px;
+      background: #f8fbfd;
+      border-radius: 12px;
+      border: 1px solid #e2ebf4;
+      box-shadow: 0 1px 7px #b8c2d220;
+    }
+    .block h2 {
+      font-size: 1em;
+      margin: 0 0 7px 0;
+      color: #175c7c;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+    }
+    ul, .steps {
+      padding-left: 17px;
+      margin: 0;
+      font-size: 1.05em;
+      line-height: 1.75;
+      color: #234050;
+    }
+    li, .step {
+      margin-bottom: 8px;
+    }
+    .label {
+      color: #0b4267;
+      font-weight: 600;
+      font-size: 1.02em;
+    }
+    .hint {
+      color: #7b95a3;
+      font-size: 0.95em;
+      margin-top: 5px;
+      display: block;
+    }
     @media (max-width: 600px) {
-      .container { max-width: 99vw; padding: 14px 1vw 14px 1vw;}
-      .instructions { padding: 9px 2vw 11px 3vw;}
-      h1 { font-size: 1em;}
+      .container { padding: 13px 2vw 15px 2vw; }
+      .block { padding: 11px 4vw 9px 4vw;}
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>DVS Seasonal Settings (EC Controller)<br>— Exact Button Steps —</h1>
+    <h1>DVS Seasonal Settings (EC Controller)</h1>
     <div class="season" id="season"></div>
-    <div class="instructions" id="instructions"></div>
+    <div id="instructions"></div>
   </div>
   <script>
     function getNZSeason() {
@@ -42,63 +99,76 @@
       if (month >= 3 && month <= 5) return "Autumn";
       return "Spring";
     }
-    function profileSteps(profile, fan, recovery, retention, temp) {
+    function stepsBlock(profile, fan, recovery, retention, temp) {
       return `
-      <div class="profile">${profile} Profile:</div>
-      <div class="substep">1. From <b>Home screen</b>, press <b>MENU</b>.</div>
-      <div class="substep">2. Use arrows to select <b>System</b>, press <b>OK</b>.</div>
-      <div class="substep">3. Select <b>Profiles</b>, press <b>OK</b>.</div>
-      <div class="substep">4. Select <b>${profile}</b>, press <b>OK</b>.</div>
-      <div class="substep">5. Select <b>Set Temp</b>, press <b>OK</b>.</div>
-      <div class="substep">6. Use arrows to set <b>${temp}°C</b>, press <b>MENU</b> to go back.</div>
-      <div class="substep">7. Select <b>Fan Control</b>, press <b>OK</b>.</div>
-      <div class="substep">8. Set <b>Fan Speed</b> to <b>${fan}</b> (arrows + OK).</div>
-      <div class="substep">9. Set <b>Heat Recovery</b> to <b>${recovery}</b> (arrows + OK).</div>
-      <div class="substep">10. Set <b>Heat Retention</b> to <b>${retention}</b> (arrows + OK).</div>
-      <div class="substep">11. Press <b>MENU</b> twice to return home.</div>
+        <h2>${profile} Profile</h2>
+        <ul>
+          <li><span class="label">Set Temperature:</span> MENU → System → Profiles → <b>${profile}</b> → Set Temp → arrows to <b>${temp}°C</b> → OK</li>
+          <li><span class="label">Fan Control:</span> Fan Speed: <b>${fan}</b> | Heat Recovery: <b>${recovery}</b> | Heat Retention: <b>${retention}</b></li>
+          <li class="hint">MENU → System → Profiles → ${profile} → Fan Control</li>
+        </ul>
       `;
     }
-    function humSteps(sens, delay) {
+    function humBlock(sens, delay) {
       return `
-      <div class="sectionhead">Humidity Settings:</div>
-      <div class="substep">1. From <b>Home screen</b>, press <b>MENU</b>.</div>
-      <div class="substep">2. Select <b>Hum. Settings</b>, press <b>OK</b>.</div>
-      <div class="substep">3. Set <b>Sensitivity</b> to <b>${sens}</b> (arrows + OK).</div>
-      <div class="substep">4. Set <b>Time</b> to <b>${delay}</b> (arrows + OK).</div>
-      <div class="substep">5. Press <b>MENU</b> to exit.</div>
+        <h2>Humidity Settings</h2>
+        <ul>
+          <li><span class="label">Sensitivity:</span> <b>${sens}</b></li>
+          <li><span class="label">Time:</span> <b>${delay}</b></li>
+          <li class="hint">MENU → Hum. Settings</li>
+        </ul>
       `;
     }
     function updateUI() {
       const season = getNZSeason();
-      const seasonDiv = document.getElementById('season');
-      const inst = document.getElementById('instructions');
+      document.getElementById('season').textContent =
+        season === "Winter" ? "❄️ WINTER (June–August)" :
+        season === "Summer" ? "☀️ SUMMER (Dec–Feb)" :
+        "🌱 Shoulder Season (Spring/Autumn)";
+      let out = "";
       if (season === "Winter") {
-        seasonDiv.textContent = "❄️ WINTER (June–August)";
-        inst.innerHTML = `
-          <div class="sectionhead">Set Both <b>Day</b> & <b>Night</b> Profiles:</div>
-          ${profileSteps("Day", "3–4 bars", "ON (all 7 bars)", "OFF", 23)}
-          ${profileSteps("Night", "3–4 bars", "ON (all 7 bars)", "OFF", 23)}
-          ${humSteps("High (Hi)", "Instant")}
-          <div class="step" style="margin-top:12px;">Done! This will minimise condensation and keep your home warm and dry in winter.</div>
+        out += `
+          <div class="block">
+            ${stepsBlock("Day", "3–4 bars", "ON (7 bars)", "OFF", 23)}
+            ${stepsBlock("Night", "3–4 bars", "ON (7 bars)", "OFF", 23)}
+          </div>
+          <div class="block">
+            ${humBlock("High (Hi)", "Instant")}
+          </div>
+          <div class="block" style="margin-top:8px;">
+            <div class="step"><b>After setting Day, repeat for Night profile.</b></div>
+            <div class="step">To switch, from Home screen: MENU → System → Profiles → select Day or Night.</div>
+            <div class="step" style="color:#6b8c98;">Windows should stay clear and home stays warm!</div>
+          </div>
         `;
       } else if (season === "Summer") {
-        seasonDiv.textContent = "☀️ SUMMER (December–February)";
-        inst.innerHTML = `
-          <div class="sectionhead">Set Both <b>Day</b> & <b>Night</b> Profiles:</div>
-          ${profileSteps("Day", "2–3 bars", "OFF", "OFF", 19)}
-          ${profileSteps("Night", "2–3 bars", "OFF", "OFF", 19)}
-          ${humSteps("Medium (Med)", "10 min")}
-          <div class="step" style="margin-top:12px;">Done! Your DVS will keep the house cool, fresh, and dry in summer.</div>
+        out += `
+          <div class="block">
+            ${stepsBlock("Day", "2–3 bars", "OFF", "OFF", 19)}
+            ${stepsBlock("Night", "2–3 bars", "OFF", "OFF", 19)}
+          </div>
+          <div class="block">
+            ${humBlock("Medium (Med)", "10 min")}
+          </div>
+          <div class="block" style="margin-top:8px;">
+            <div class="step"><b>After setting Day, repeat for Night profile.</b></div>
+            <div class="step">To switch, from Home screen: MENU → System → Profiles → select Day or Night.</div>
+            <div class="step" style="color:#6b8c98;">Keeps your home fresh and cool in summer.</div>
+          </div>
         `;
       } else {
-        seasonDiv.textContent = "🌱 Shoulder Season (Spring/Autumn)";
-        inst.innerHTML = `
-          <div class="sectionhead">Tips:</div>
-          <div class="step">If mornings are cold or windows fog, use <b>Winter</b> steps.</div>
-          <div class="step">If house is stuffy or warm, use <b>Summer</b> steps.</div>
-          <div class="step">Adjust <b>Fan</b> and <b>Temperature</b> as needed for comfort.</div>
+        out += `
+          <div class="block">
+            <h2>Tips for Spring/Autumn</h2>
+            <div class="steps">
+              <div class="step">If cold mornings or condensation: use <b>Winter</b> settings.</div>
+              <div class="step">If stuffy/warm: use <b>Summer</b> settings.</div>
+              <div class="step">Adjust Fan and Temperature for comfort.</div>
+            </div>
+          </div>
         `;
       }
+      document.getElementById('instructions').innerHTML = out;
     }
     updateUI();
   </script>
