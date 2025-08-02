@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>DVS Setup Wizard (NZ)</title>
+  <title>DVS Setup Wizard – Easy Steps (NZ)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <style>
     body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f7fb; margin: 0; padding: 0;}
     .container { max-width: 420px; margin: 0 auto; background: #fff; border-radius: 18px; box-shadow: 0 2px 20px #2d415a19; padding: 24px 6vw 18px 6vw; margin-top: 28px;}
-    h1 { text-align: center; color: #154b6d; font-size: 1.16em; margin-bottom: 16px;}
+    h1 { text-align: center; color: #154b6d; font-size: 1.13em; margin-bottom: 15px;}
     .season-btns { display: flex; flex-direction: column; gap: 18px; margin: 18px 0;}
     .season-btn {
       display: flex; align-items: center; justify-content: center;
@@ -21,60 +21,95 @@
     .season-btn.active, .season-btn:focus { background: #cbefff; box-shadow: 0 2px 16px #92ccf6b5; outline: none;}
     .season-btn.recommended { border: 2.5px solid #1798bc; background: #d4f4ff;}
     .wizard-step { text-align: center; margin-top: 25px;}
-    .wizard-title { color: #137076; font-size: 1.08em; margin-bottom: 18px; font-weight: 600;}
-    .wizard-action { font-size: 1.21em; color: #124a74; font-weight: 500; margin-bottom: 13px;}
-    .wizard-desc { color: #3b566a; font-size: 1.05em; margin-bottom: 16px;}
+    .wizard-title { color: #137076; font-size: 1.09em; margin-bottom: 17px; font-weight: 600;}
+    .wizard-action { font-size: 1.17em; color: #124a74; font-weight: 500; margin-bottom: 12px;}
+    .wizard-desc { color: #3b566a; font-size: 1.04em; margin-bottom: 14px;}
     .wizard-nav { display: flex; justify-content: center; gap: 15px; margin-top: 18px;}
     .wiz-btn {
-      font-size: 1.07em; font-weight: bold; padding: 12px 28px;
+      font-size: 1.07em; font-weight: bold; padding: 13px 30px;
       border-radius: 11px; border: none;
       background: #e0f5fb; color: #115473; cursor: pointer;
       box-shadow: 0 1px 8px #b7d2df1a; margin: 0 7px;
       transition: background 0.18s;
     }
     .wiz-btn:active, .wiz-btn:focus { background: #bfe8f9;}
-    .showall { margin: 24px auto 0 auto; display: block; font-size: 1em; color: #19719b; background: none; border: none; text-decoration: underline; cursor: pointer;}
-    .allsteps { background: #f6fafc; padding: 13px 8px; border-radius: 12px; margin-top: 17px;}
+    .summary {
+      margin: 25px auto 0 auto; display: block; font-size: 1.07em;
+      background: #f8fbfc; color: #15719b; border-radius: 10px; padding: 16px 14px; text-align: left;
+      border: 1.2px solid #d5eaf7;
+      box-shadow: 0 1px 6px #bdddfd19;
+    }
+    .summary-title {font-weight: bold; font-size: 1.07em; color: #145578; margin-bottom: 7px;}
+    .summary ul {margin: 6px 0 0 0; padding: 0 0 0 17px;}
+    .summary li {margin-bottom: 6px;}
     @media (max-width: 600px) {
       .container { padding: 11px 2vw 12px 2vw;}
       .season-btn { font-size: 1.09em; padding: 14px 0;}
+      .wiz-btn { padding: 12px 0; width: 46vw;}
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>DVS Easy Seasonal Setup (NZ)</h1>
+    <h1>DVS Easy Setup Wizard (NZ)</h1>
     <div id="main"></div>
   </div>
   <script>
-    // Data for each season's steps
-    const SEASON_STEPS = {
+    // Each wizard step as an object with .title, .action, .desc, and .summary (if last step)
+    const STEPS = {
       Winter: [
-        { title: "Set DAY Profile", action: "Go to MENU → System → Profiles → Day", desc: "Press OK." },
-        { title: "Set Day Temp", action: "Choose 'Set Temp' → 23°C", desc: "Use arrow keys, then OK." },
-        { title: "Day Fan Control", action: "Select 'Fan Control'", desc: "Set: Fan Speed 3–4 bars, Heat Recovery ON (all 7 bars), Heat Retention OFF (0 bars)." },
-        { title: "Set NIGHT Profile", action: "Select 'Night' in Profiles", desc: "Press OK." },
-        { title: "Set Night Temp", action: "Choose 'Set Temp' → 23°C", desc: "Use arrow keys, then OK." },
-        { title: "Night Fan Control", action: "Select 'Fan Control'", desc: "Set: Fan Speed 3–4 bars, Heat Recovery ON, Heat Retention OFF." },
-        { title: "Humidity Settings", action: "MENU → Hum. Settings", desc: "Set Sensitivity: High (Hi).<br>Set Time: Instant." }
+        { title: "Start Day Settings", action: "From the main screen, press MENU. Use ▲▼ arrows to highlight 'System', then press OK. Use ▲▼ to highlight 'Profiles', then press OK.", desc: "" },
+        { title: "Select Day & Set Temp", action: "Use ▲▼ to highlight 'Day', then press OK. Use ▲▼ to highlight 'Set Temp', then press OK. Use ▲▼ to set 23°C, then press OK.", desc: "" },
+        { title: "Go Back & Open Fan Control", action: "Press MENU to go back to the 'Day' menu. Use ▲▼ to highlight 'Fan Control', then press OK.", desc: "" },
+        { title: "Set Fan Speed", action: "Use ▲▼ to highlight 'Fan Speed', then press OK. Use ▲▼ to set 3–4 bars. Press OK.", desc: "" },
+        { title: "Go Back & Set Heat Recovery", action: "Press MENU to go back. Use ▲▼ to highlight 'Heat Recovery', then press OK. Use ▲▼ to set all 7 bars. Press OK.", desc: "" },
+        { title: "Go Back & Set Heat Retention", action: "Press MENU to go back. Use ▲▼ to highlight 'Heat Retention', then press OK. Use ▼ to set to OFF (0 bars). Press OK.", desc: "" },
+        { title: "Finish Day Profile", action: "Press MENU until you see 'Profiles' again.", desc: "Now set Night settings." },
+
+        { title: "Select Night & Set Temp", action: "Use ▲▼ to highlight 'Night', then press OK. Use ▲▼ to highlight 'Set Temp', then press OK. Use ▲▼ to set 23°C, then press OK.", desc: "" },
+        { title: "Go Back & Open Night Fan Control", action: "Press MENU to go back. Use ▲▼ to highlight 'Fan Control', then press OK.", desc: "" },
+        { title: "Set Night Fan Speed", action: "Use ▲▼ to highlight 'Fan Speed', then press OK. Use ▲▼ to set 3–4 bars. Press OK.", desc: "" },
+        { title: "Go Back & Set Night Heat Recovery", action: "Press MENU to go back. Use ▲▼ to highlight 'Heat Recovery', then press OK. Use ▲▼ to set all 7 bars. Press OK.", desc: "" },
+        { title: "Go Back & Set Night Heat Retention", action: "Press MENU to go back. Use ▲▼ to highlight 'Heat Retention', then press OK. Use ▼ to set to OFF (0 bars). Press OK.", desc: "" },
+        { title: "Finish Night Profile", action: "Press MENU until you see the main screen.", desc: "" },
+
+        { title: "Set Humidity Settings", action: "From the main screen, press MENU. Use ▲▼ to highlight 'Hum. Settings', then press OK. Use ▲▼ to set Sensitivity: High (Hi), press OK. Use ▲▼ to set Time: Instant, press OK. Press MENU to finish.", desc: "", summary: [
+          "Day & Night: Temperature 23°C",
+          "Fan Speed: 3–4 bars",
+          "Heat Recovery: ON (all 7 bars)",
+          "Heat Retention: OFF",
+          "Humidity: High, Instant"
+        ]}
       ],
       Summer: [
-        { title: "Set DAY Profile", action: "Go to MENU → System → Profiles → Day", desc: "Press OK." },
-        { title: "Set Day Temp", action: "Choose 'Set Temp' → 19°C", desc: "Use arrow keys, then OK." },
-        { title: "Day Fan Control", action: "Select 'Fan Control'", desc: "Set: Fan Speed 2–3 bars, Heat Recovery OFF (0 bars), Heat Retention OFF (0 bars)." },
-        { title: "Set NIGHT Profile", action: "Select 'Night' in Profiles", desc: "Press OK." },
-        { title: "Set Night Temp", action: "Choose 'Set Temp' → 19°C", desc: "Use arrow keys, then OK." },
-        { title: "Night Fan Control", action: "Select 'Fan Control'", desc: "Set: Fan Speed 2–3 bars, Heat Recovery OFF, Heat Retention OFF." },
-        { title: "Humidity Settings", action: "MENU → Hum. Settings", desc: "Set Sensitivity: Medium (Med).<br>Set Time: 10 min." }
+        { title: "Start Day Settings", action: "From the main screen, press MENU. Use ▲▼ arrows to highlight 'System', then press OK. Use ▲▼ to highlight 'Profiles', then press OK.", desc: "" },
+        { title: "Select Day & Set Temp", action: "Use ▲▼ to highlight 'Day', then press OK. Use ▲▼ to highlight 'Set Temp', then press OK. Use ▲▼ to set 19°C, then press OK.", desc: "" },
+        { title: "Go Back & Open Fan Control", action: "Press MENU to go back to the 'Day' menu. Use ▲▼ to highlight 'Fan Control', then press OK.", desc: "" },
+        { title: "Set Fan Speed", action: "Use ▲▼ to highlight 'Fan Speed', then press OK. Use ▲▼ to set 2–3 bars. Press OK.", desc: "" },
+        { title: "Go Back & Set Heat Recovery", action: "Press MENU to go back. Use ▲▼ to highlight 'Heat Recovery', then press OK. Use ▼ to set to OFF (0 bars). Press OK.", desc: "" },
+        { title: "Go Back & Set Heat Retention", action: "Press MENU to go back. Use ▲▼ to highlight 'Heat Retention', then press OK. Use ▼ to set to OFF (0 bars). Press OK.", desc: "" },
+        { title: "Finish Day Profile", action: "Press MENU until you see 'Profiles' again.", desc: "Now set Night settings." },
+
+        { title: "Select Night & Set Temp", action: "Use ▲▼ to highlight 'Night', then press OK. Use ▲▼ to highlight 'Set Temp', then press OK. Use ▲▼ to set 19°C, then press OK.", desc: "" },
+        { title: "Go Back & Open Night Fan Control", action: "Press MENU to go back. Use ▲▼ to highlight 'Fan Control', then press OK.", desc: "" },
+        { title: "Set Night Fan Speed", action: "Use ▲▼ to highlight 'Fan Speed', then press OK. Use ▲▼ to set 2–3 bars. Press OK.", desc: "" },
+        { title: "Go Back & Set Night Heat Recovery", action: "Press MENU to go back. Use ▲▼ to highlight 'Heat Recovery', then press OK. Use ▼ to set to OFF (0 bars). Press OK.", desc: "" },
+        { title: "Go Back & Set Night Heat Retention", action: "Press MENU to go back. Use ▲▼ to highlight 'Heat Retention', then press OK. Use ▼ to set to OFF (0 bars). Press OK.", desc: "" },
+        { title: "Finish Night Profile", action: "Press MENU until you see the main screen.", desc: "" },
+
+        { title: "Set Humidity Settings", action: "From the main screen, press MENU. Use ▲▼ to highlight 'Hum. Settings', then press OK. Use ▲▼ to set Sensitivity: Medium (Med), press OK. Use ▲▼ to set Time: 10 min, press OK. Press MENU to finish.", desc: "", summary: [
+          "Day & Night: Temperature 19°C",
+          "Fan Speed: 2–3 bars",
+          "Heat Recovery: OFF",
+          "Heat Retention: OFF",
+          "Humidity: Medium, 10 min"
+        ]}
       ]
     };
-    // Friendly names & emojis
     const SEASON_META = {
       Winter: { name: "Winter", emoji: "❄️", tip: "Recommended for June–August" },
-      Summer: { name: "Summer", emoji: "☀️", tip: "Recommended for December–February" },
-      Custom: { name: "Custom / Help", emoji: "🛠️", tip: "Use if you want to adjust for Spring/Autumn" }
+      Summer: { name: "Summer", emoji: "☀️", tip: "Recommended for December–February" }
     };
-    // Detect NZ season (simplified)
     function getNZSeason() {
       const now = new Date();
       let month = now.getUTCMonth() + 1;
@@ -86,61 +121,41 @@
       }
       if (month === 12 || month === 1 || month === 2) return "Summer";
       if (month >= 6 && month <= 8) return "Winter";
-      return "Custom";
+      return "Winter";
     }
     // State
     let selected = getNZSeason();
     let step = 0;
-    let showAll = false;
     // Render
     function render() {
       const main = document.getElementById('main');
-      if (step === 0 && !showAll) {
-        // Season selection screen
+      if (step === 0) {
         main.innerHTML = `
           <div style="text-align:center; font-size:1.05em; margin-bottom: 4px;">
-            <b>Select your season:</b>
+            <b>Select the season to set up:</b>
           </div>
           <div class="season-btns">
             <button class="season-btn${selected==="Winter"?" recommended active":""}" onclick="selectSeason('Winter')">❄️ Winter<br><span style='font-size:0.9em; font-weight:400'>June–August</span></button>
             <button class="season-btn${selected==="Summer"?" recommended active":""}" onclick="selectSeason('Summer')">☀️ Summer<br><span style='font-size:0.9em; font-weight:400'>Dec–Feb</span></button>
-            <button class="season-btn${selected==="Custom"?" active":""}" onclick="selectSeason('Custom')">🛠️ Spring/Autumn or Custom</button>
           </div>
           <div style="text-align:center; margin:18px 0 10px 0;">
             <button class="wiz-btn" onclick="startWizard()">Start Setup</button>
           </div>
-          <button class="showall" onclick="showAllSteps()">Show all steps for all seasons</button>
         `;
-      } else if (!showAll) {
-        // Wizard step
-        let steps = selected === "Custom" ? SEASON_STEPS.Winter : SEASON_STEPS[selected];
-        if (selected === "Custom") {
-          steps = [
-            { title: "Choose a base:", action: "Most use Winter settings for cold/damp, Summer for hot/stuffy.", desc: "Select above, or set your own preferences." }
-          ];
-        }
+      } else {
+        const meta = SEASON_META[selected];
+        const steps = STEPS[selected];
         const curr = steps[step - 1];
         main.innerHTML = `
           <div class="wizard-step">
-            <div class="wizard-title">${curr.title}</div>
+            <div class="wizard-title">${meta.emoji} <span>${curr.title}</span></div>
             <div class="wizard-action">${curr.action}</div>
             <div class="wizard-desc">${curr.desc}</div>
             <div class="wizard-nav">
               ${step > 1 ? `<button class="wiz-btn" onclick="prevStep()">Back</button>` : ""}
               ${step < steps.length ? `<button class="wiz-btn" onclick="nextStep()">Next</button>` : `<button class="wiz-btn" onclick="resetWizard()">Finish</button>`}
             </div>
-            <button class="showall" onclick="showAllSteps()">Show all steps</button>
-          </div>
-        `;
-      } else {
-        // All steps
-        main.innerHTML = `
-          <div class="allsteps">
-            <b>Winter:</b>
-            <ol>${SEASON_STEPS.Winter.map(s=>`<li><b>${s.title}:</b> ${s.action} <span style="color:#597b96">${s.desc}</span></li>`).join('')}</ol>
-            <b>Summer:</b>
-            <ol>${SEASON_STEPS.Summer.map(s=>`<li><b>${s.title}:</b> ${s.action} <span style="color:#597b96">${s.desc}</span></li>`).join('')}</ol>
-            <button class="wiz-btn" onclick="resetWizard()" style="margin:13px auto 0 auto;display:block;">Back</button>
+            ${curr.summary ? `<div class="summary"><div class="summary-title">Summary:</div><ul>${curr.summary.map(item=>`<li>${item}</li>`).join('')}</ul></div>` : ""}
           </div>
         `;
       }
@@ -150,9 +165,7 @@
     window.startWizard = function() { step = 1; render(); }
     window.nextStep = function() { step += 1; render(); }
     window.prevStep = function() { step -= 1; render(); }
-    window.showAllSteps = function() { showAll = true; render(); }
-    window.resetWizard = function() { step = 0; showAll = false; render(); }
-    // Initial render
+    window.resetWizard = function() { step = 0; render(); }
     render();
   </script>
 </body>
