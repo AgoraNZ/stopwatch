@@ -19,6 +19,16 @@
       font-size: 1.03em;
       box-shadow: 0 2px 8px #c8e2f425;
     }
+    .settingbox {
+      background: #fcf4e5;
+      border-left: 5px solid #f7b733;
+      color: #937d3b;
+      padding: 13px 12px 13px 16px;
+      border-radius: 8px;
+      margin-bottom: 18px;
+      font-size: 1.03em;
+      box-shadow: 0 2px 8px #f7e7c425;
+    }
     .wizardselect {
       margin-bottom: 18px;
       text-align: center;
@@ -61,7 +71,7 @@
       .container { padding: 11px 2vw 12px 2vw;}
       .season-btn { font-size: 1.09em; padding: 14px 0;}
       .wiz-btn { padding: 12px 0; width: 46vw;}
-      .infobox, .fanbox { font-size: 1em; }
+      .infobox, .fanbox, .settingbox { font-size: 1em; }
     }
   </style>
   <script>
@@ -89,6 +99,18 @@
       Your DVS gently moves air even if the roof is colder, helping control moisture and reduce condensation. The settings below keep windows clear, air fresh, and your home healthy all winter.`,
       Summer: `<b>Why does the fan run even if roof is warm?</b><br>
       In summer, DVS circulates fresh air to prevent stuffiness and help manage humidity. The settings below keep your home comfortable and fresh—even on warm days.`
+    };
+
+    // Simple summary of all recommended settings and benefit
+    const SEASON_SETTING = {
+      Winter: `<b>Winter Settings (June–August)</b><br>
+      Use the wizard below to set:<br>
+      Temp 23°C, Fan 3–4 bars, Heat Recovery ON, Heat Retention OFF, Humidity High, Instant.<br>
+      Keeps windows clear and home dry in winter.`,
+      Summer: `<b>Summer Settings (Dec–Feb)</b><br>
+      Use the wizard below to set:<br>
+      Temp 19°C, Fan 2–3 bars, Heat Recovery OFF, Heat Retention OFF, Humidity Medium, 10 min.<br>
+      Keeps home fresh and comfortable in summer.`
     };
 
     // Fan speed box: simple, helpful, season-specific, in the exact wording style you want
@@ -197,6 +219,7 @@
       if (step === 0) {
         main.innerHTML = `
           <div class="infobox" id="faninfo">${FAN_INFO[selected]}</div>
+          <div class="settingbox" id="seasonbox">${SEASON_SETTING[selected]}</div>
           <div class="wizardselect">
             <div style="text-align:center; font-size:1.05em; margin-bottom: 4px;">
               <b>Select the season to set up:</b>
