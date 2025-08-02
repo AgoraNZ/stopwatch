@@ -3,11 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <title>DVS Setup Wizard – Easy Steps (NZ)</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
   <style>
+    html, body { touch-action: manipulation; }
     body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f7fb; margin: 0; padding: 0;}
-    .container { max-width: 420px; margin: 0 auto; background: #fff; border-radius: 18px; box-shadow: 0 2px 20px #2d415a19; padding: 24px 6vw 18px 6vw; margin-top: 28px;}
+    .container { max-width: 440px; margin: 0 auto; background: #fff; border-radius: 18px; box-shadow: 0 2px 20px #2d415a19; padding: 24px 6vw 18px 6vw; margin-top: 28px;}
     h1 { text-align: center; color: #154b6d; font-size: 1.13em; margin-bottom: 15px;}
+    .infobox {
+      background: #e5f4ff;
+      border-left: 5px solid #2ca6db;
+      color: #15597b;
+      padding: 13px 12px 13px 16px;
+      border-radius: 8px;
+      margin-bottom: 18px;
+      font-size: 1.03em;
+      box-shadow: 0 2px 8px #c8e2f425;
+    }
     .season-btns { display: flex; flex-direction: column; gap: 18px; margin: 18px 0;}
     .season-btn {
       display: flex; align-items: center; justify-content: center;
@@ -39,15 +50,28 @@
       border: 1.2px solid #d5eaf7;
       box-shadow: 0 1px 6px #bdddfd19;
     }
-    .summary-title {font-weight: bold; font-size: 1.07em; color: #145578; margin-bottom: 7px;}
-    .summary ul {margin: 6px 0 0 0; padding: 0 0 0 17px;}
-    .summary li {margin-bottom: 6px;}
+    .summary-title {font-weight: bold; font-size: 1.07em; color: #145578; margin-bottom: 8px;}
+    .summary ul {margin: 8px 0 0 0; padding: 0 0 0 18px;}
+    .summary li {margin-bottom: 7px;}
     @media (max-width: 600px) {
       .container { padding: 11px 2vw 12px 2vw;}
       .season-btn { font-size: 1.09em; padding: 14px 0;}
       .wiz-btn { padding: 12px 0; width: 46vw;}
+      .infobox { font-size: 0.98em; }
     }
   </style>
+  <script>
+    // Prevent double-tap zoom
+    document.addEventListener('touchstart', function preventZoom(e) {
+      if (e.touches.length > 1) e.preventDefault();
+    }, { passive: false });
+    let lastTouch = 0;
+    document.addEventListener('touchend', function(e) {
+      let now = new Date().getTime();
+      if (now - lastTouch <= 300) e.preventDefault();
+      lastTouch = now;
+    }, false);
+  </script>
 </head>
 <body>
   <div class="container">
@@ -55,6 +79,14 @@
     <div id="main"></div>
   </div>
   <script>
+    // Info/explanation per season for why the fan runs etc
+    const FAN_INFO = {
+      Winter: `<b>Why does the fan run even when roof air is cold?</b><br>
+      Your DVS gently moves air even if the roof is colder, helping control moisture and reduce condensation. The settings below keep windows clear, air fresh, and your home healthy all winter.`,
+      Summer: `<b>Why does the fan run even if roof is warm?</b><br>
+      In summer, DVS circulates fresh air to prevent stuffiness and help manage humidity. The settings below keep your home comfortable and fresh—even on warm days.`
+    };
+
     // Each wizard step as an object with .title, .action, .desc, and .summary (if last step)
     const STEPS = {
       Winter: [
@@ -66,7 +98,6 @@
         { title: "Set Day Heat Recovery", action: "Press MENU to go back. Select 'Heat Recovery'. Press OK. Select all 7 bars. Press OK.", desc: "" },
         { title: "Set Day Heat Retention", action: "Press MENU to go back. Select 'Heat Retention'. Press OK. Select OFF (0 bars). Press OK.", desc: "" },
         { title: "Finish Day Profile", action: "Press MENU until you see 'Profiles' again.", desc: "Now set Night settings." },
-
         { title: "Night Profile", action: "Select 'Night'. Press OK.", desc: "" },
         { title: "Set Night Temp", action: "Select 'Set Temp'. Press OK. Select 23°C. Press OK.", desc: "" },
         { title: "Open Night Fan Control", action: "Press MENU to go back. Select 'Fan Control'. Press OK.", desc: "" },
@@ -74,14 +105,15 @@
         { title: "Set Night Heat Recovery", action: "Press MENU to go back. Select 'Heat Recovery'. Press OK. Select all 7 bars. Press OK.", desc: "" },
         { title: "Set Night Heat Retention", action: "Press MENU to go back. Select 'Heat Retention'. Press OK. Select OFF (0 bars). Press OK.", desc: "" },
         { title: "Finish Night Profile", action: "Press MENU until you see the main screen.", desc: "" },
-
         { title: "Set Humidity", action: "From the main screen, press MENU. Select 'Hum. Settings'. Press OK. Select 'Sensitivity'. Press OK. Select High (Hi). Press OK.", desc: "" },
         { title: "Set Humidity Time", action: "Select 'Time'. Press OK. Select Instant. Press OK. Press MENU to finish.", summary: [
-          "Day & Night: Temp 23°C",
-          "Fan Speed: 3–4 bars",
-          "Heat Recovery: ON (7 bars)",
-          "Heat Retention: OFF",
-          "Humidity: High, Instant"
+          "<b>Why these settings?</b>",
+          "• Heat Recovery ON: Uses any available roof warmth to help heat the home.",
+          "• Heat Retention OFF: Allows more air flow to control winter moisture and condensation.",
+          "• Humidity Sensitivity High + Instant: Quickly responds to moisture, stopping damp air from entering.",
+          "• Fan Speed 3–4 bars: Moves enough air to keep windows clear without chilling the home.",
+          "",
+          "If you still notice window fog, increase fan speed slightly.<br><br>This setup keeps your home dry, fresh and healthy all winter."
         ]}
       ],
       Summer: [
@@ -93,7 +125,6 @@
         { title: "Set Day Heat Recovery", action: "Press MENU to go back. Select 'Heat Recovery'. Press OK. Select OFF (0 bars). Press OK.", desc: "" },
         { title: "Set Day Heat Retention", action: "Press MENU to go back. Select 'Heat Retention'. Press OK. Select OFF (0 bars). Press OK.", desc: "" },
         { title: "Finish Day Profile", action: "Press MENU until you see 'Profiles' again.", desc: "Now set Night settings." },
-
         { title: "Night Profile", action: "Select 'Night'. Press OK.", desc: "" },
         { title: "Set Night Temp", action: "Select 'Set Temp'. Press OK. Select 19°C. Press OK.", desc: "" },
         { title: "Open Night Fan Control", action: "Press MENU to go back. Select 'Fan Control'. Press OK.", desc: "" },
@@ -101,14 +132,15 @@
         { title: "Set Night Heat Recovery", action: "Press MENU to go back. Select 'Heat Recovery'. Press OK. Select OFF (0 bars). Press OK.", desc: "" },
         { title: "Set Night Heat Retention", action: "Press MENU to go back. Select 'Heat Retention'. Press OK. Select OFF (0 bars). Press OK.", desc: "" },
         { title: "Finish Night Profile", action: "Press MENU until you see the main screen.", desc: "" },
-
         { title: "Set Humidity", action: "From the main screen, press MENU. Select 'Hum. Settings'. Press OK. Select 'Sensitivity'. Press OK. Select Medium (Med). Press OK.", desc: "" },
         { title: "Set Humidity Time", action: "Select 'Time'. Press OK. Select 10 min. Press OK. Press MENU to finish.", summary: [
-          "Day & Night: Temp 19°C",
-          "Fan Speed: 2–3 bars",
-          "Heat Recovery: OFF",
-          "Heat Retention: OFF",
-          "Humidity: Medium, 10 min"
+          "<b>Why these settings?</b>",
+          "• Heat Recovery OFF: Avoids pulling in hot roof air during summer days.",
+          "• Heat Retention OFF: Keeps air flow fresh, not stuffy.",
+          "• Humidity Sensitivity Medium (10-min delay): Controls humidity without cycling the fan on/off too often.",
+          "• Fan Speed 2–3 bars: Keeps air moving gently without making the house too warm or too cool.",
+          "",
+          "If house is stuffy, increase fan speed slightly.<br><br>This keeps your home fresh and comfortable in summer."
         ]}
       ]
     };
@@ -132,11 +164,11 @@
     // State
     let selected = getNZSeason();
     let step = 0;
-    // Render
     function render() {
       const main = document.getElementById('main');
       if (step === 0) {
         main.innerHTML = `
+          <div class="infobox" id="faninfo">${FAN_INFO[selected]}</div>
           <div style="text-align:center; font-size:1.05em; margin-bottom: 4px;">
             <b>Select the season to set up:</b>
           </div>
@@ -161,7 +193,7 @@
               ${step > 1 ? `<button class="wiz-btn" onclick="prevStep()">Back</button>` : ""}
               ${step < steps.length ? `<button class="wiz-btn" onclick="nextStep()">Next</button>` : `<button class="wiz-btn" onclick="resetWizard()">Finish</button>`}
             </div>
-            ${curr.summary ? `<div class="summary"><div class="summary-title">Summary:</div><ul>${curr.summary.map(item=>`<li>${item}</li>`).join('')}</ul></div>` : ""}
+            ${curr.summary ? `<div class="summary"><div class="summary-title">${curr.summary[0]}</div><ul>${curr.summary.slice(1).map(item=>`<li>${item}</li>`).join('')}</ul></div>` : ""}
           </div>
         `;
       }
