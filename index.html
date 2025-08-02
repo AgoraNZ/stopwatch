@@ -15,10 +15,21 @@
       color: #15597b;
       padding: 13px 12px 13px 16px;
       border-radius: 8px;
-      margin-bottom: 18px;
+      margin-bottom: 14px;
       font-size: 1.03em;
       box-shadow: 0 2px 8px #c8e2f425;
     }
+    .fanbox {
+      background: #e8f8e2;
+      border-left: 5px solid #1abe63;
+      color: #197844;
+      padding: 13px 12px 13px 16px;
+      border-radius: 8px;
+      margin-bottom: 18px;
+      font-size: 1.03em;
+      box-shadow: 0 2px 8px #c5f7da25;
+    }
+    .fanbox b, .infobox b { color: #13749a; }
     .season-btns { display: flex; flex-direction: column; gap: 18px; margin: 18px 0;}
     .season-btn {
       display: flex; align-items: center; justify-content: center;
@@ -57,7 +68,7 @@
       .container { padding: 11px 2vw 12px 2vw;}
       .season-btn { font-size: 1.09em; padding: 14px 0;}
       .wiz-btn { padding: 12px 0; width: 46vw;}
-      .infobox { font-size: 0.98em; }
+      .infobox, .fanbox { font-size: 0.98em; }
     }
   </style>
   <script>
@@ -85,6 +96,28 @@
       Your DVS gently moves air even if the roof is colder, helping control moisture and reduce condensation. The settings below keep windows clear, air fresh, and your home healthy all winter.`,
       Summer: `<b>Why does the fan run even if roof is warm?</b><br>
       In summer, DVS circulates fresh air to prevent stuffiness and help manage humidity. The settings below keep your home comfortable and fresh—even on warm days.`
+    };
+
+    // Fan speed box: how to adjust and what up/down does for each season
+    const FAN_ADJUST = {
+      Winter: `<b>How to adjust fan speed:</b><br>
+        From the main screen:<br>
+        MENU → System → Profiles → Day or Night → Fan Control → Fan Speed<br>
+        <br>
+        <b>What does UP or DOWN do in winter?</b><br>
+        <b>UP:</b> Increases fan speed. Clears moisture faster but may cool house more.<br>
+        <b>DOWN:</b> Lowers fan speed. Use if house feels too cold, but windows may fog.<br>
+        <br>
+        <span style="color:#387e48;">If windows fog, try increasing fan speed.<br>If home feels too cool, reduce fan speed.</span>`,
+      Summer: `<b>How to adjust fan speed:</b><br>
+        From the main screen:<br>
+        MENU → System → Profiles → Day or Night → Fan Control → Fan Speed<br>
+        <br>
+        <b>What does UP or DOWN do in summer?</b><br>
+        <b>UP:</b> Increases airflow, makes house feel fresher but may bring in warmer roof air.<br>
+        <b>DOWN:</b> Lowers airflow, helps if house is getting too warm.<br>
+        <br>
+        <span style="color:#387e48;">If house is stuffy, increase fan speed.<br>If home feels too warm, reduce fan speed.</span>`
     };
 
     // Each wizard step as an object with .title, .action, .desc, and .summary (if last step)
@@ -169,6 +202,7 @@
       if (step === 0) {
         main.innerHTML = `
           <div class="infobox" id="faninfo">${FAN_INFO[selected]}</div>
+          <div class="fanbox" id="fanbox">${FAN_ADJUST[selected]}</div>
           <div style="text-align:center; font-size:1.05em; margin-bottom: 4px;">
             <b>Select the season to set up:</b>
           </div>
