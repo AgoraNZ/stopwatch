@@ -22,7 +22,7 @@
     .season-btn.recommended { border: 2.5px solid #1798bc; background: #d4f4ff;}
     .wizard-step { text-align: center; margin-top: 25px;}
     .wizard-title { color: #137076; font-size: 1.09em; margin-bottom: 17px; font-weight: 600;}
-    .wizard-action { font-size: 1.17em; color: #124a74; font-weight: 500; margin-bottom: 12px;}
+    .wizard-action { font-size: 1.16em; color: #124a74; font-weight: 500; margin-bottom: 12px;}
     .wizard-desc { color: #3b566a; font-size: 1.04em; margin-bottom: 14px;}
     .wizard-nav { display: flex; justify-content: center; gap: 15px; margin-top: 18px;}
     .wiz-btn {
@@ -58,47 +58,53 @@
     // Each wizard step as an object with .title, .action, .desc, and .summary (if last step)
     const STEPS = {
       Winter: [
-        { title: "Start Day Settings", action: "From the main screen, press MENU. Use ▲▼ arrows to highlight 'System', then press OK. Use ▲▼ to highlight 'Profiles', then press OK.", desc: "" },
-        { title: "Select Day & Set Temp", action: "Use ▲▼ to highlight 'Day', then press OK. Use ▲▼ to highlight 'Set Temp', then press OK. Use ▲▼ to set 23°C, then press OK.", desc: "" },
-        { title: "Go Back & Open Fan Control", action: "Press MENU to go back to the 'Day' menu. Use ▲▼ to highlight 'Fan Control', then press OK.", desc: "" },
-        { title: "Set Fan Speed", action: "Use ▲▼ to highlight 'Fan Speed', then press OK. Use ▲▼ to set 3–4 bars. Press OK.", desc: "" },
-        { title: "Go Back & Set Heat Recovery", action: "Press MENU to go back. Use ▲▼ to highlight 'Heat Recovery', then press OK. Use ▲▼ to set all 7 bars. Press OK.", desc: "" },
-        { title: "Go Back & Set Heat Retention", action: "Press MENU to go back. Use ▲▼ to highlight 'Heat Retention', then press OK. Use ▼ to set to OFF (0 bars). Press OK.", desc: "" },
+        { title: "Start Day Settings", action: "From the main screen, press MENU. Select 'System'. Press OK. Select 'Profiles'. Press OK.", desc: "" },
+        { title: "Day Profile", action: "Select 'Day'. Press OK.", desc: "" },
+        { title: "Set Day Temp", action: "Select 'Set Temp'. Press OK. Select 23°C. Press OK.", desc: "" },
+        { title: "Open Fan Control", action: "Press MENU to go back. Select 'Fan Control'. Press OK.", desc: "" },
+        { title: "Set Day Fan Speed", action: "Select 'Fan Speed'. Press OK. Select 3–4 bars. Press OK.", desc: "" },
+        { title: "Set Day Heat Recovery", action: "Press MENU to go back. Select 'Heat Recovery'. Press OK. Select all 7 bars. Press OK.", desc: "" },
+        { title: "Set Day Heat Retention", action: "Press MENU to go back. Select 'Heat Retention'. Press OK. Select OFF (0 bars). Press OK.", desc: "" },
         { title: "Finish Day Profile", action: "Press MENU until you see 'Profiles' again.", desc: "Now set Night settings." },
 
-        { title: "Select Night & Set Temp", action: "Use ▲▼ to highlight 'Night', then press OK. Use ▲▼ to highlight 'Set Temp', then press OK. Use ▲▼ to set 23°C, then press OK.", desc: "" },
-        { title: "Go Back & Open Night Fan Control", action: "Press MENU to go back. Use ▲▼ to highlight 'Fan Control', then press OK.", desc: "" },
-        { title: "Set Night Fan Speed", action: "Use ▲▼ to highlight 'Fan Speed', then press OK. Use ▲▼ to set 3–4 bars. Press OK.", desc: "" },
-        { title: "Go Back & Set Night Heat Recovery", action: "Press MENU to go back. Use ▲▼ to highlight 'Heat Recovery', then press OK. Use ▲▼ to set all 7 bars. Press OK.", desc: "" },
-        { title: "Go Back & Set Night Heat Retention", action: "Press MENU to go back. Use ▲▼ to highlight 'Heat Retention', then press OK. Use ▼ to set to OFF (0 bars). Press OK.", desc: "" },
+        { title: "Night Profile", action: "Select 'Night'. Press OK.", desc: "" },
+        { title: "Set Night Temp", action: "Select 'Set Temp'. Press OK. Select 23°C. Press OK.", desc: "" },
+        { title: "Open Night Fan Control", action: "Press MENU to go back. Select 'Fan Control'. Press OK.", desc: "" },
+        { title: "Set Night Fan Speed", action: "Select 'Fan Speed'. Press OK. Select 3–4 bars. Press OK.", desc: "" },
+        { title: "Set Night Heat Recovery", action: "Press MENU to go back. Select 'Heat Recovery'. Press OK. Select all 7 bars. Press OK.", desc: "" },
+        { title: "Set Night Heat Retention", action: "Press MENU to go back. Select 'Heat Retention'. Press OK. Select OFF (0 bars). Press OK.", desc: "" },
         { title: "Finish Night Profile", action: "Press MENU until you see the main screen.", desc: "" },
 
-        { title: "Set Humidity Settings", action: "From the main screen, press MENU. Use ▲▼ to highlight 'Hum. Settings', then press OK. Use ▲▼ to set Sensitivity: High (Hi), press OK. Use ▲▼ to set Time: Instant, press OK. Press MENU to finish.", desc: "", summary: [
-          "Day & Night: Temperature 23°C",
+        { title: "Set Humidity", action: "From the main screen, press MENU. Select 'Hum. Settings'. Press OK. Select 'Sensitivity'. Press OK. Select High (Hi). Press OK.", desc: "" },
+        { title: "Set Humidity Time", action: "Select 'Time'. Press OK. Select Instant. Press OK. Press MENU to finish.", summary: [
+          "Day & Night: Temp 23°C",
           "Fan Speed: 3–4 bars",
-          "Heat Recovery: ON (all 7 bars)",
+          "Heat Recovery: ON (7 bars)",
           "Heat Retention: OFF",
           "Humidity: High, Instant"
         ]}
       ],
       Summer: [
-        { title: "Start Day Settings", action: "From the main screen, press MENU. Use ▲▼ arrows to highlight 'System', then press OK. Use ▲▼ to highlight 'Profiles', then press OK.", desc: "" },
-        { title: "Select Day & Set Temp", action: "Use ▲▼ to highlight 'Day', then press OK. Use ▲▼ to highlight 'Set Temp', then press OK. Use ▲▼ to set 19°C, then press OK.", desc: "" },
-        { title: "Go Back & Open Fan Control", action: "Press MENU to go back to the 'Day' menu. Use ▲▼ to highlight 'Fan Control', then press OK.", desc: "" },
-        { title: "Set Fan Speed", action: "Use ▲▼ to highlight 'Fan Speed', then press OK. Use ▲▼ to set 2–3 bars. Press OK.", desc: "" },
-        { title: "Go Back & Set Heat Recovery", action: "Press MENU to go back. Use ▲▼ to highlight 'Heat Recovery', then press OK. Use ▼ to set to OFF (0 bars). Press OK.", desc: "" },
-        { title: "Go Back & Set Heat Retention", action: "Press MENU to go back. Use ▲▼ to highlight 'Heat Retention', then press OK. Use ▼ to set to OFF (0 bars). Press OK.", desc: "" },
+        { title: "Start Day Settings", action: "From the main screen, press MENU. Select 'System'. Press OK. Select 'Profiles'. Press OK.", desc: "" },
+        { title: "Day Profile", action: "Select 'Day'. Press OK.", desc: "" },
+        { title: "Set Day Temp", action: "Select 'Set Temp'. Press OK. Select 19°C. Press OK.", desc: "" },
+        { title: "Open Fan Control", action: "Press MENU to go back. Select 'Fan Control'. Press OK.", desc: "" },
+        { title: "Set Day Fan Speed", action: "Select 'Fan Speed'. Press OK. Select 2–3 bars. Press OK.", desc: "" },
+        { title: "Set Day Heat Recovery", action: "Press MENU to go back. Select 'Heat Recovery'. Press OK. Select OFF (0 bars). Press OK.", desc: "" },
+        { title: "Set Day Heat Retention", action: "Press MENU to go back. Select 'Heat Retention'. Press OK. Select OFF (0 bars). Press OK.", desc: "" },
         { title: "Finish Day Profile", action: "Press MENU until you see 'Profiles' again.", desc: "Now set Night settings." },
 
-        { title: "Select Night & Set Temp", action: "Use ▲▼ to highlight 'Night', then press OK. Use ▲▼ to highlight 'Set Temp', then press OK. Use ▲▼ to set 19°C, then press OK.", desc: "" },
-        { title: "Go Back & Open Night Fan Control", action: "Press MENU to go back. Use ▲▼ to highlight 'Fan Control', then press OK.", desc: "" },
-        { title: "Set Night Fan Speed", action: "Use ▲▼ to highlight 'Fan Speed', then press OK. Use ▲▼ to set 2–3 bars. Press OK.", desc: "" },
-        { title: "Go Back & Set Night Heat Recovery", action: "Press MENU to go back. Use ▲▼ to highlight 'Heat Recovery', then press OK. Use ▼ to set to OFF (0 bars). Press OK.", desc: "" },
-        { title: "Go Back & Set Night Heat Retention", action: "Press MENU to go back. Use ▲▼ to highlight 'Heat Retention', then press OK. Use ▼ to set to OFF (0 bars). Press OK.", desc: "" },
+        { title: "Night Profile", action: "Select 'Night'. Press OK.", desc: "" },
+        { title: "Set Night Temp", action: "Select 'Set Temp'. Press OK. Select 19°C. Press OK.", desc: "" },
+        { title: "Open Night Fan Control", action: "Press MENU to go back. Select 'Fan Control'. Press OK.", desc: "" },
+        { title: "Set Night Fan Speed", action: "Select 'Fan Speed'. Press OK. Select 2–3 bars. Press OK.", desc: "" },
+        { title: "Set Night Heat Recovery", action: "Press MENU to go back. Select 'Heat Recovery'. Press OK. Select OFF (0 bars). Press OK.", desc: "" },
+        { title: "Set Night Heat Retention", action: "Press MENU to go back. Select 'Heat Retention'. Press OK. Select OFF (0 bars). Press OK.", desc: "" },
         { title: "Finish Night Profile", action: "Press MENU until you see the main screen.", desc: "" },
 
-        { title: "Set Humidity Settings", action: "From the main screen, press MENU. Use ▲▼ to highlight 'Hum. Settings', then press OK. Use ▲▼ to set Sensitivity: Medium (Med), press OK. Use ▲▼ to set Time: 10 min, press OK. Press MENU to finish.", desc: "", summary: [
-          "Day & Night: Temperature 19°C",
+        { title: "Set Humidity", action: "From the main screen, press MENU. Select 'Hum. Settings'. Press OK. Select 'Sensitivity'. Press OK. Select Medium (Med). Press OK.", desc: "" },
+        { title: "Set Humidity Time", action: "Select 'Time'. Press OK. Select 10 min. Press OK. Press MENU to finish.", summary: [
+          "Day & Night: Temp 19°C",
           "Fan Speed: 2–3 bars",
           "Heat Recovery: OFF",
           "Heat Retention: OFF",
