@@ -1,82 +1,132 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stopwatch</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f4f4f4;
-            font-family: Arial, sans-serif;
-        }
-        #stopwatch {
-            font-size: 3rem;
-            color: #333;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>DVS Simple Seasonal Settings – NZ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    html, body { font-family: Arial, sans-serif; background: #f7fafc; margin: 0; padding: 0;}
+    .container { max-width: 430px; background: #fff; margin: 40px auto; border-radius: 14px; box-shadow: 0 4px 20px #2222; padding: 36px 22px 24px 22px;}
+    h1 { text-align: center; color: #1b375a;}
+    .season { text-align: center; font-size: 1.3em; margin: 12px 0 30px 0; color: #157d86;}
+    table { width: 100%; border-collapse: collapse; margin-bottom: 20px;}
+    th, td { padding: 12px 8px; text-align: center; }
+    th { background: #e6effa; color: #215080;}
+    tr:nth-child(even) { background: #f1f8fb; }
+    tr:nth-child(odd) { background: #fff; }
+    .instructions { background: #f9fafc; border: 1px solid #d5e2ef; border-radius: 8px; padding: 16px 12px; margin-top: 24px;}
+    .step { margin-bottom: 7px;}
+    @media (max-width: 600px) {
+      .container { max-width: 98vw; padding: 9vw 2vw;}
+      h1 { font-size: 1.1em;}
+      th, td { font-size: 0.98em;}
+    }
+  </style>
 </head>
 <body>
-
-    <div id="stopwatch">00:00:00:000</div>
-
-    <script>
-        let startTime = 0;
-        let elapsedTime = 0;
-        let interval;
-        let isRunning = false;
-
-        const stopwatchDisplay = document.getElementById('stopwatch');
-
-        function updateDisplay(time) {
-            const milliseconds = Math.floor((time % 1000));
-            const seconds = Math.floor((time / 1000) % 60);
-            const minutes = Math.floor((time / (1000 * 60)) % 60);
-            const hours = Math.floor((time / (1000 * 60 * 60)) % 24);
-
-            stopwatchDisplay.textContent = 
-                `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}:${milliseconds.toString().padStart(3, '0')}`;
+  <div class="container">
+    <h1>DVS Simple Settings (NZ)</h1>
+    <div class="season" id="season"></div>
+    <table>
+      <tr>
+        <th>Fan Speed</th>
+        <th>Heat Recovery</th>
+        <th>Heat Retention</th>
+        <th>Humidity Sensitivity</th>
+        <th>Humidity Delay</th>
+        <th>Set Temp</th>
+      </tr>
+      <tr id="winterRow">
+        <td>3–4 bars</td>
+        <td>ON (7 bars)</td>
+        <td>OFF</td>
+        <td>High (Hi)</td>
+        <td>Instant</td>
+        <td>23°C</td>
+      </tr>
+      <tr id="summerRow">
+        <td>2–3 bars</td>
+        <td>OFF</td>
+        <td>OFF</td>
+        <td>Medium (Med)</td>
+        <td>10 min</td>
+        <td>19°C</td>
+      </tr>
+    </table>
+    <div class="instructions" id="instructions">
+      <!-- Steps will be inserted here -->
+    </div>
+  </div>
+  <script>
+    // Determine NZ season by browser date (Winter: June–Aug, Summer: Dec–Feb)
+    function getNZSeason() {
+      const now = new Date();
+      // UTC+12 for NZ (ignoring DST for simplicity; real logic could add 1hr in Sep-Apr)
+      let month = now.getUTCMonth() + 1; // 1–12
+      // Get real NZ month (browser timezone might not be NZ so approximate using UTC+12)
+      const hour = now.getUTCHours();
+      if (hour < 12) {
+        // If before midday UTC, NZ is already on next day, bump month if 31st
+        if (now.getUTCDate() === new Date(now.getUTCFullYear(), now.getUTCMonth()+1, 0).getDate()) {
+          month = (month % 12) + 1;
         }
-
-        function startStopwatch() {
-            startTime = Date.now() - elapsedTime;
-            interval = setInterval(() => {
-                elapsedTime = Date.now() - startTime;
-                updateDisplay(elapsedTime);
-            }, 10);
-            isRunning = true;
-        }
-
-        function stopStopwatch() {
-            clearInterval(interval);
-            isRunning = false;
-        }
-
-        function resetStopwatch() {
-            clearInterval(interval);
-            elapsedTime = 0;
-            updateDisplay(0);
-            startStopwatch();
-        }
-
-        document.body.addEventListener('click', () => {
-            if (!isRunning) {
-                if (elapsedTime === 0) {
-                    startStopwatch();
-                } else {
-                    resetStopwatch();
-                }
-            } else {
-                stopStopwatch();
-            }
-        });
-
-        updateDisplay(0); // Initial display
-    </script>
-
+      }
+      // NZ Summer: Dec–Feb; NZ Winter: Jun–Aug; Shoulder: Mar–May & Sep–Nov
+      if (month === 12 || month <= 2) return "Summer";
+      if (month >= 6 && month <= 8) return "Winter";
+      if (month >= 3 && month <= 5) return "Autumn";
+      return "Spring";
+    }
+    function updateUI() {
+      const season = getNZSeason();
+      const seasonDiv = document.getElementById('season');
+      const winterRow = document.getElementById('winterRow');
+      const summerRow = document.getElementById('summerRow');
+      const inst = document.getElementById('instructions');
+      if (season === "Winter") {
+        seasonDiv.textContent = "Current Season: ❄️ WINTER (June–August)";
+        winterRow.style.fontWeight = "bold";
+        summerRow.style.display = "none";
+        inst.innerHTML = `
+        <b>Quick Setup – WINTER</b><br>
+        <div class="step">1. Set <b>Fan Speed</b> to <b>3–4 bars</b>.</div>
+        <div class="step">2. In Menu, tap <b>Heat Recovery</b> → <b>ON</b> (all 7 bars).</div>
+        <div class="step">3. Tap <b>Heat Retention</b> → <b>OFF</b>.</div>
+        <div class="step">4. Tap <b>Humidity Sensitivity</b> → <b>High (Hi)</b>.</div>
+        <div class="step">5. Tap <b>Humidity Delay</b> → <b>Instant</b>.</div>
+        <div class="step">6. Tap <b>Set Temperature</b> → <b>23°C</b>.</div>
+        <div class="step">That's it! Helps eliminate condensation & keep windows clear.</div>
+        `;
+      } else if (season === "Summer") {
+        seasonDiv.textContent = "Current Season: ☀️ SUMMER (December–February)";
+        summerRow.style.fontWeight = "bold";
+        winterRow.style.display = "none";
+        inst.innerHTML = `
+        <b>Quick Setup – SUMMER</b><br>
+        <div class="step">1. Set <b>Fan Speed</b> to <b>2–3 bars</b>.</div>
+        <div class="step">2. In Menu, tap <b>Heat Recovery</b> → <b>OFF</b>.</div>
+        <div class="step">3. Tap <b>Heat Retention</b> → <b>OFF</b>.</div>
+        <div class="step">4. Tap <b>Humidity Sensitivity</b> → <b>Medium (Med)</b>.</div>
+        <div class="step">5. Tap <b>Humidity Delay</b> → <b>10 min</b>.</div>
+        <div class="step">6. Tap <b>Set Temperature</b> → <b>19°C</b>.</div>
+        <div class="step">That's it! Enjoy a cool, fresh home in summer.</div>
+        `;
+      } else {
+        seasonDiv.textContent = "Current Season: Shoulder (Spring/Autumn)";
+        winterRow.style.display = "";
+        summerRow.style.display = "";
+        winterRow.style.fontWeight = "normal";
+        summerRow.style.fontWeight = "normal";
+        inst.innerHTML = `
+        <b>Quick Setup – Shoulder Season</b><br>
+        <div class="step">Try <b>Winter</b> settings if mornings are cold or condensation appears.</div>
+        <div class="step">Try <b>Summer</b> settings if home is stuffy or too warm.</div>
+        <div class="step">Adjust <b>Fan Speed</b> and <b>Set Temperature</b> as needed.</div>
+        <div class="step">Fine-tune for comfort!</div>
+        `;
+      }
+    }
+    updateUI();
+  </script>
 </body>
 </html>
