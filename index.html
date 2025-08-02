@@ -2,67 +2,29 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>DVS Seasonal Settings – Exact Steps (NZ)</title>
+  <title>DVS EC Controller Seasonal Setup NZ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
   <style>
     html, body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f7fb; margin: 0; padding: 0;}
-    .container { max-width: 460px; background: #fff; margin: 0 auto; border-radius: 18px; box-shadow: 0 2px 18px #2d415a17; padding: 25px 8vw 20px 8vw; margin-top: 16px; margin-bottom: 18px;}
-    h1 { text-align: center; color: #18395d; font-size: 1.13em; margin-bottom: 9px;}
-    .season { text-align: center; font-size: 1.09em; margin: 9px 0 18px 0; color: #19787f; font-weight: 600;}
-    .table-wrap { width: 100%; overflow-x: auto; margin-bottom: 11px; border-radius: 11px; background: #f8fafc; }
-    table { min-width: 505px; width: 100%; border-collapse: collapse; font-size: 1em;}
-    th, td { padding: 12px 7px; text-align: center;}
-    th { background: #e6effa; color: #215080; font-weight: 700;}
-    tr:nth-child(even) { background: #f4f9fb; }
-    tr:nth-child(odd) { background: #fff; }
-    .instructions { background: #f9fafc; border: 1px solid #d5e2ef; border-radius: 12px; padding: 15px 10px 17px 13px; margin-top: 20px; font-size: 1.04em; line-height: 1.68; color: #223042; box-shadow: 0 2px 8px #a3bbcc12;}
-    .step { margin-bottom: 12px; font-size: 1.06em;}
-    .step b { color: #154d83;}
+    .container { max-width: 500px; background: #fff; margin: 0 auto; border-radius: 16px; box-shadow: 0 2px 20px #23334c13; padding: 25px 5vw 22px 5vw; margin-top: 22px; margin-bottom: 18px;}
+    h1 { text-align: center; color: #18395d; font-size: 1.12em; margin-bottom: 11px;}
+    .season { text-align: center; font-size: 1.09em; margin: 10px 0 19px 0; color: #19787f; font-weight: 600;}
+    .instructions { background: #f9fafc; border: 1px solid #d5e2ef; border-radius: 12px; padding: 15px 10px 15px 15px; margin-top: 13px; font-size: 1.06em; line-height: 1.7; color: #223042; box-shadow: 0 2px 8px #a3bbcc12;}
+    .step { margin-bottom: 14px; font-size: 1.07em;}
+    .substep {margin-left: 17px; font-size: 1em;}
+    .profile {margin: 4px 0 2px 0; font-weight: 500; color: #135c8b;}
+    .sectionhead {font-size: 1.09em; margin-top: 18px; color: #125e7c; margin-bottom: 3px;}
     @media (max-width: 600px) {
-      .container { max-width: 99vw; padding: 14px 1.2vw 14px 1.2vw;}
-      .table-wrap { margin: 0 -1.5vw 8px -1.5vw; }
-      th, td { padding: 10px 2px; font-size: 0.98em;}
-      .instructions { padding: 9px 5px 13px 8px;}
+      .container { max-width: 99vw; padding: 14px 1vw 14px 1vw;}
+      .instructions { padding: 9px 2vw 11px 3vw;}
       h1 { font-size: 1em;}
-    }
-    @media (max-width: 450px) {
-      table { min-width: 500px;}
-      .instructions { font-size: 0.96em;}
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>DVS Simple Settings – Step-by-Step (NZ)</h1>
+    <h1>DVS Seasonal Settings (EC Controller)<br>— Exact Button Steps —</h1>
     <div class="season" id="season"></div>
-    <div class="table-wrap">
-      <table>
-        <tr>
-          <th>Fan Speed</th>
-          <th>Heat Recovery</th>
-          <th>Heat Retention</th>
-          <th>Humidity Sens.</th>
-          <th>Humidity Delay</th>
-          <th>Set Temp</th>
-        </tr>
-        <tr id="winterRow">
-          <td>3–4 bars</td>
-          <td>ON (7 bars)</td>
-          <td>OFF</td>
-          <td>High (Hi)</td>
-          <td>Instant</td>
-          <td>23°C</td>
-        </tr>
-        <tr id="summerRow">
-          <td>2–3 bars</td>
-          <td>OFF</td>
-          <td>OFF</td>
-          <td>Medium (Med)</td>
-          <td>10 min</td>
-          <td>19°C</td>
-        </tr>
-      </table>
-    </div>
     <div class="instructions" id="instructions"></div>
   </div>
   <script>
@@ -80,119 +42,61 @@
       if (month >= 3 && month <= 5) return "Autumn";
       return "Spring";
     }
+    function profileSteps(profile, fan, recovery, retention, temp) {
+      return `
+      <div class="profile">${profile} Profile:</div>
+      <div class="substep">1. From <b>Home screen</b>, press <b>MENU</b>.</div>
+      <div class="substep">2. Use arrows to select <b>System</b>, press <b>OK</b>.</div>
+      <div class="substep">3. Select <b>Profiles</b>, press <b>OK</b>.</div>
+      <div class="substep">4. Select <b>${profile}</b>, press <b>OK</b>.</div>
+      <div class="substep">5. Select <b>Set Temp</b>, press <b>OK</b>.</div>
+      <div class="substep">6. Use arrows to set <b>${temp}°C</b>, press <b>MENU</b> to go back.</div>
+      <div class="substep">7. Select <b>Fan Control</b>, press <b>OK</b>.</div>
+      <div class="substep">8. Set <b>Fan Speed</b> to <b>${fan}</b> (arrows + OK).</div>
+      <div class="substep">9. Set <b>Heat Recovery</b> to <b>${recovery}</b> (arrows + OK).</div>
+      <div class="substep">10. Set <b>Heat Retention</b> to <b>${retention}</b> (arrows + OK).</div>
+      <div class="substep">11. Press <b>MENU</b> twice to return home.</div>
+      `;
+    }
+    function humSteps(sens, delay) {
+      return `
+      <div class="sectionhead">Humidity Settings:</div>
+      <div class="substep">1. From <b>Home screen</b>, press <b>MENU</b>.</div>
+      <div class="substep">2. Select <b>Hum. Settings</b>, press <b>OK</b>.</div>
+      <div class="substep">3. Set <b>Sensitivity</b> to <b>${sens}</b> (arrows + OK).</div>
+      <div class="substep">4. Set <b>Time</b> to <b>${delay}</b> (arrows + OK).</div>
+      <div class="substep">5. Press <b>MENU</b> to exit.</div>
+      `;
+    }
     function updateUI() {
       const season = getNZSeason();
       const seasonDiv = document.getElementById('season');
-      const winterRow = document.getElementById('winterRow');
-      const summerRow = document.getElementById('summerRow');
       const inst = document.getElementById('instructions');
       if (season === "Winter") {
         seasonDiv.textContent = "❄️ WINTER (June–August)";
-        winterRow.style.fontWeight = "bold";
-        summerRow.style.display = "none";
         inst.innerHTML = `
-        <b>Exact Steps – WINTER:</b>
-        <div class="step">1. <b>Set Fan Speed:</b><br>
-          &nbsp;&nbsp;• Press <b>FAN</b> button.<br>
-          &nbsp;&nbsp;• Press <b>UP</b> or <b>DOWN</b> arrows to set to <b>3–4 bars</b>.<br>
-          &nbsp;&nbsp;• Wait 2 seconds for screen to confirm.
-        </div>
-        <div class="step">2. <b>Turn ON Heat Recovery:</b><br>
-          &nbsp;&nbsp;• Press <b>MENU</b>.<br>
-          &nbsp;&nbsp;• Use <b>DOWN</b> arrow to scroll to <b>HEAT RECOVERY</b>.<br>
-          &nbsp;&nbsp;• Press <b>OK/SELECT</b>.<br>
-          &nbsp;&nbsp;• Press <b>UP</b> arrow to fill all 7 bars.<br>
-          &nbsp;&nbsp;• Press <b>OK/SELECT</b> to save.
-        </div>
-        <div class="step">3. <b>Turn OFF Heat Retention:</b><br>
-          &nbsp;&nbsp;• Press <b>MENU</b>.<br>
-          &nbsp;&nbsp;• Scroll to <b>HEAT RETENTION</b>.<br>
-          &nbsp;&nbsp;• Press <b>OK/SELECT</b>.<br>
-          &nbsp;&nbsp;• Press <b>DOWN</b> arrow to <b>0 bars (OFF)</b>.<br>
-          &nbsp;&nbsp;• Press <b>OK/SELECT</b>.
-        </div>
-        <div class="step">4. <b>Set Humidity Sensitivity to HIGH:</b><br>
-          &nbsp;&nbsp;• Press <b>MENU</b>.<br>
-          &nbsp;&nbsp;• Scroll to <b>HUMIDITY SENSITIVITY</b>.<br>
-          &nbsp;&nbsp;• Press <b>OK/SELECT</b>.<br>
-          &nbsp;&nbsp;• Press <b>UP</b> arrow to <b>HIGH</b>.<br>
-          &nbsp;&nbsp;• Press <b>OK/SELECT</b>.
-        </div>
-        <div class="step">5. <b>Set Humidity Delay to INSTANT:</b><br>
-          &nbsp;&nbsp;• Press <b>MENU</b>.<br>
-          &nbsp;&nbsp;• Scroll to <b>HUMIDITY DELAY</b>.<br>
-          &nbsp;&nbsp;• Press <b>OK/SELECT</b>.<br>
-          &nbsp;&nbsp;• Press <b>DOWN</b> until it shows <b>INSTANT</b>.<br>
-          &nbsp;&nbsp;• Press <b>OK/SELECT</b>.
-        </div>
-        <div class="step">6. <b>Set Temperature to 23°C:</b><br>
-          &nbsp;&nbsp;• Press <b>MENU</b>.<br>
-          &nbsp;&nbsp;• Scroll to <b>TEMPERATURE</b> or <b>SET TEMPERATURE</b>.<br>
-          &nbsp;&nbsp;• Press <b>OK/SELECT</b>.<br>
-          &nbsp;&nbsp;• Use <b>UP/DOWN</b> arrows to <b>23°C</b>.<br>
-          &nbsp;&nbsp;• Press <b>OK/SELECT</b>.
-        </div>
-        <div class="step" style="margin-top:9px;">Done! Your DVS is now optimised for winter and window condensation should disappear.</div>
+          <div class="sectionhead">Set Both <b>Day</b> & <b>Night</b> Profiles:</div>
+          ${profileSteps("Day", "3–4 bars", "ON (all 7 bars)", "OFF", 23)}
+          ${profileSteps("Night", "3–4 bars", "ON (all 7 bars)", "OFF", 23)}
+          ${humSteps("High (Hi)", "Instant")}
+          <div class="step" style="margin-top:12px;">Done! This will minimise condensation and keep your home warm and dry in winter.</div>
         `;
       } else if (season === "Summer") {
         seasonDiv.textContent = "☀️ SUMMER (December–February)";
-        summerRow.style.fontWeight = "bold";
-        winterRow.style.display = "none";
         inst.innerHTML = `
-        <b>Exact Steps – SUMMER:</b>
-        <div class="step">1. <b>Set Fan Speed:</b><br>
-          &nbsp;&nbsp;• Press <b>FAN</b> button.<br>
-          &nbsp;&nbsp;• Use <b>UP/DOWN</b> arrows to set <b>2–3 bars</b>.<br>
-          &nbsp;&nbsp;• Wait 2 seconds for screen to confirm.
-        </div>
-        <div class="step">2. <b>Turn OFF Heat Recovery:</b><br>
-          &nbsp;&nbsp;• Press <b>MENU</b>.<br>
-          &nbsp;&nbsp;• Use <b>DOWN</b> arrow to <b>HEAT RECOVERY</b>.<br>
-          &nbsp;&nbsp;• Press <b>OK/SELECT</b>.<br>
-          &nbsp;&nbsp;• Press <b>DOWN</b> arrow to <b>0 bars (OFF)</b>.<br>
-          &nbsp;&nbsp;• Press <b>OK/SELECT</b>.
-        </div>
-        <div class="step">3. <b>Turn OFF Heat Retention:</b><br>
-          &nbsp;&nbsp;• Press <b>MENU</b>.<br>
-          &nbsp;&nbsp;• Scroll to <b>HEAT RETENTION</b>.<br>
-          &nbsp;&nbsp;• Press <b>OK/SELECT</b>.<br>
-          &nbsp;&nbsp;• Press <b>DOWN</b> arrow to <b>0 bars (OFF)</b>.<br>
-          &nbsp;&nbsp;• Press <b>OK/SELECT</b>.
-        </div>
-        <div class="step">4. <b>Set Humidity Sensitivity to MEDIUM:</b><br>
-          &nbsp;&nbsp;• Press <b>MENU</b>.<br>
-          &nbsp;&nbsp;• Scroll to <b>HUMIDITY SENSITIVITY</b>.<br>
-          &nbsp;&nbsp;• Press <b>OK/SELECT</b>.<br>
-          &nbsp;&nbsp;• Use <b>UP/DOWN</b> arrows to <b>MEDIUM</b>.<br>
-          &nbsp;&nbsp;• Press <b>OK/SELECT</b>.
-        </div>
-        <div class="step">5. <b>Set Humidity Delay to 10 min:</b><br>
-          &nbsp;&nbsp;• Press <b>MENU</b>.<br>
-          &nbsp;&nbsp;• Scroll to <b>HUMIDITY DELAY</b>.<br>
-          &nbsp;&nbsp;• Press <b>OK/SELECT</b>.<br>
-          &nbsp;&nbsp;• Use <b>UP/DOWN</b> to <b>10 min</b>.<br>
-          &nbsp;&nbsp;• Press <b>OK/SELECT</b>.
-        </div>
-        <div class="step">6. <b>Set Temperature to 19°C:</b><br>
-          &nbsp;&nbsp;• Press <b>MENU</b>.<br>
-          &nbsp;&nbsp;• Scroll to <b>TEMPERATURE</b> or <b>SET TEMPERATURE</b>.<br>
-          &nbsp;&nbsp;• Press <b>OK/SELECT</b>.<br>
-          &nbsp;&nbsp;• Use <b>UP/DOWN</b> arrows to <b>19°C</b>.<br>
-          &nbsp;&nbsp;• Press <b>OK/SELECT</b>.
-        </div>
-        <div class="step" style="margin-top:9px;">Done! DVS is set for cool, dry, and fresh summer comfort.</div>
+          <div class="sectionhead">Set Both <b>Day</b> & <b>Night</b> Profiles:</div>
+          ${profileSteps("Day", "2–3 bars", "OFF", "OFF", 19)}
+          ${profileSteps("Night", "2–3 bars", "OFF", "OFF", 19)}
+          ${humSteps("Medium (Med)", "10 min")}
+          <div class="step" style="margin-top:12px;">Done! Your DVS will keep the house cool, fresh, and dry in summer.</div>
         `;
       } else {
         seasonDiv.textContent = "🌱 Shoulder Season (Spring/Autumn)";
-        winterRow.style.display = "";
-        summerRow.style.display = "";
-        winterRow.style.fontWeight = "normal";
-        summerRow.style.fontWeight = "normal";
         inst.innerHTML = `
-        <b>Shoulder Season Tips:</b>
-        <div class="step">If mornings are cold or windows fog, use <b>Winter</b> steps.</div>
-        <div class="step">If house is stuffy or warm, use <b>Summer</b> steps.</div>
-        <div class="step">Adjust <b>Fan</b> and <b>Temperature</b> as needed for comfort.</div>
+          <div class="sectionhead">Tips:</div>
+          <div class="step">If mornings are cold or windows fog, use <b>Winter</b> steps.</div>
+          <div class="step">If house is stuffy or warm, use <b>Summer</b> steps.</div>
+          <div class="step">Adjust <b>Fan</b> and <b>Temperature</b> as needed for comfort.</div>
         `;
       }
     }
