@@ -3,76 +3,157 @@
 <head>
   <meta charset="UTF-8">
   <title>DVS Simple Seasonal Settings – NZ</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
   <style>
-    html, body { font-family: Arial, sans-serif; background: #f7fafc; margin: 0; padding: 0;}
-    .container { max-width: 430px; background: #fff; margin: 40px auto; border-radius: 14px; box-shadow: 0 4px 20px #2222; padding: 36px 22px 24px 22px;}
-    h1 { text-align: center; color: #1b375a;}
-    .season { text-align: center; font-size: 1.3em; margin: 12px 0 30px 0; color: #157d86;}
-    table { width: 100%; border-collapse: collapse; margin-bottom: 20px;}
-    th, td { padding: 12px 8px; text-align: center; }
-    th { background: #e6effa; color: #215080;}
-    tr:nth-child(even) { background: #f1f8fb; }
+    html, body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f4f7fb;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 440px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 2px 20px #2d415a18;
+      padding: 24px 7vw 22px 7vw;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #1b375a;
+      font-size: 1.19em;
+      letter-spacing: 0.03em;
+      margin-bottom: 13px;
+    }
+    .season {
+      text-align: center;
+      font-size: 1.12em;
+      margin: 9px 0 21px 0;
+      color: #19787f;
+      font-weight: 600;
+    }
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      margin-bottom: 12px;
+      border-radius: 12px;
+      background: #f7fafc;
+      box-shadow: 0 1px 5px #22334412;
+    }
+    table {
+      min-width: 490px;
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 1em;
+    }
+    th, td {
+      padding: 12px 7px;
+      text-align: center;
+    }
+    th {
+      background: #e6effa;
+      color: #215080;
+      font-weight: 700;
+      font-size: 1em;
+    }
+    tr {
+      font-size: 1.03em;
+    }
+    tr:nth-child(even) { background: #f4f9fb; }
     tr:nth-child(odd) { background: #fff; }
-    .instructions { background: #f9fafc; border: 1px solid #d5e2ef; border-radius: 8px; padding: 16px 12px; margin-top: 24px;}
-    .step { margin-bottom: 7px;}
+    .instructions {
+      background: #f9fafc;
+      border: 1px solid #d5e2ef;
+      border-radius: 12px;
+      padding: 14px 9px 14px 17px;
+      margin-top: 19px;
+      font-size: 1.04em;
+      line-height: 1.6;
+      color: #223042;
+      box-shadow: 0 2px 8px #a3bbcc11;
+    }
+    .step {
+      margin-bottom: 8px;
+      font-size: 1.06em;
+    }
     @media (max-width: 600px) {
-      .container { max-width: 98vw; padding: 9vw 2vw;}
-      h1 { font-size: 1.1em;}
-      th, td { font-size: 0.98em;}
+      .container {
+        max-width: 99vw;
+        padding: 12px 2vw 18px 2vw;
+      }
+      .table-wrap {
+        margin: 0 -2vw 8px -2vw;
+      }
+      th, td {
+        padding: 11px 3px;
+        font-size: 0.98em;
+      }
+      .instructions {
+        padding: 11px 5px 13px 8px;
+      }
+    }
+    @media (max-width: 450px) {
+      h1 { font-size: 1.05em; }
+      .season { font-size: 1em;}
+      .instructions { font-size: 0.98em;}
+      table { min-width: 480px;}
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>DVS Simple Settings (NZ)</h1>
+    <h1>DVS Simple Settings<br>(NZ – Mobile Ready)</h1>
     <div class="season" id="season"></div>
-    <table>
-      <tr>
-        <th>Fan Speed</th>
-        <th>Heat Recovery</th>
-        <th>Heat Retention</th>
-        <th>Humidity Sensitivity</th>
-        <th>Humidity Delay</th>
-        <th>Set Temp</th>
-      </tr>
-      <tr id="winterRow">
-        <td>3–4 bars</td>
-        <td>ON (7 bars)</td>
-        <td>OFF</td>
-        <td>High (Hi)</td>
-        <td>Instant</td>
-        <td>23°C</td>
-      </tr>
-      <tr id="summerRow">
-        <td>2–3 bars</td>
-        <td>OFF</td>
-        <td>OFF</td>
-        <td>Medium (Med)</td>
-        <td>10 min</td>
-        <td>19°C</td>
-      </tr>
-    </table>
+    <div class="table-wrap">
+      <table>
+        <tr>
+          <th>Fan Speed</th>
+          <th>Heat Recovery</th>
+          <th>Heat Retention</th>
+          <th>Humidity Sens.</th>
+          <th>Humidity Delay</th>
+          <th>Set Temp</th>
+        </tr>
+        <tr id="winterRow">
+          <td>3–4 bars</td>
+          <td>ON (7 bars)</td>
+          <td>OFF</td>
+          <td>High (Hi)</td>
+          <td>Instant</td>
+          <td>23°C</td>
+        </tr>
+        <tr id="summerRow">
+          <td>2–3 bars</td>
+          <td>OFF</td>
+          <td>OFF</td>
+          <td>Medium (Med)</td>
+          <td>10 min</td>
+          <td>19°C</td>
+        </tr>
+      </table>
+    </div>
     <div class="instructions" id="instructions">
       <!-- Steps will be inserted here -->
     </div>
   </div>
   <script>
-    // Determine NZ season by browser date (Winter: June–Aug, Summer: Dec–Feb)
+    // Determine NZ season by browser date (Winter: Jun–Aug, Summer: Dec–Feb)
     function getNZSeason() {
       const now = new Date();
-      // UTC+12 for NZ (ignoring DST for simplicity; real logic could add 1hr in Sep-Apr)
       let month = now.getUTCMonth() + 1; // 1–12
-      // Get real NZ month (browser timezone might not be NZ so approximate using UTC+12)
+      // For New Zealand local time: UTC+12 or +13
+      // This will work correctly for most use
       const hour = now.getUTCHours();
       if (hour < 12) {
-        // If before midday UTC, NZ is already on next day, bump month if 31st
+        // If before midday UTC, NZ is already on next day for late hours
         if (now.getUTCDate() === new Date(now.getUTCFullYear(), now.getUTCMonth()+1, 0).getDate()) {
           month = (month % 12) + 1;
         }
       }
-      // NZ Summer: Dec–Feb; NZ Winter: Jun–Aug; Shoulder: Mar–May & Sep–Nov
-      if (month === 12 || month <= 2) return "Summer";
+      if (month === 12 || month === 1 || month === 2) return "Summer";
       if (month >= 6 && month <= 8) return "Winter";
       if (month >= 3 && month <= 5) return "Autumn";
       return "Spring";
@@ -84,45 +165,44 @@
       const summerRow = document.getElementById('summerRow');
       const inst = document.getElementById('instructions');
       if (season === "Winter") {
-        seasonDiv.textContent = "Current Season: ❄️ WINTER (June–August)";
+        seasonDiv.textContent = "❄️ WINTER (June–August)";
         winterRow.style.fontWeight = "bold";
         summerRow.style.display = "none";
         inst.innerHTML = `
-        <b>Quick Setup – WINTER</b><br>
-        <div class="step">1. Set <b>Fan Speed</b> to <b>3–4 bars</b>.</div>
-        <div class="step">2. In Menu, tap <b>Heat Recovery</b> → <b>ON</b> (all 7 bars).</div>
-        <div class="step">3. Tap <b>Heat Retention</b> → <b>OFF</b>.</div>
-        <div class="step">4. Tap <b>Humidity Sensitivity</b> → <b>High (Hi)</b>.</div>
-        <div class="step">5. Tap <b>Humidity Delay</b> → <b>Instant</b>.</div>
-        <div class="step">6. Tap <b>Set Temperature</b> → <b>23°C</b>.</div>
-        <div class="step">That's it! Helps eliminate condensation & keep windows clear.</div>
+        <b>WINTER Setup:</b>
+        <div class="step">1. Tap <b>Fan</b> ➔ Set <b>3–4 bars</b>.</div>
+        <div class="step">2. Menu ➔ <b>Heat Recovery</b> ➔ <b>ON (7 bars)</b>.</div>
+        <div class="step">3. Menu ➔ <b>Heat Retention</b> ➔ <b>OFF</b>.</div>
+        <div class="step">4. Menu ➔ <b>Humidity Sensitivity</b> ➔ <b>High (Hi)</b>.</div>
+        <div class="step">5. Menu ➔ <b>Humidity Delay</b> ➔ <b>Instant</b>.</div>
+        <div class="step">6. Menu ➔ <b>Set Temperature</b> ➔ <b>23°C</b>.</div>
+        <div class="step" style="margin-top:7px;">Windows will stay clear and home stays warm!</div>
         `;
       } else if (season === "Summer") {
-        seasonDiv.textContent = "Current Season: ☀️ SUMMER (December–February)";
+        seasonDiv.textContent = "☀️ SUMMER (December–February)";
         summerRow.style.fontWeight = "bold";
         winterRow.style.display = "none";
         inst.innerHTML = `
-        <b>Quick Setup – SUMMER</b><br>
-        <div class="step">1. Set <b>Fan Speed</b> to <b>2–3 bars</b>.</div>
-        <div class="step">2. In Menu, tap <b>Heat Recovery</b> → <b>OFF</b>.</div>
-        <div class="step">3. Tap <b>Heat Retention</b> → <b>OFF</b>.</div>
-        <div class="step">4. Tap <b>Humidity Sensitivity</b> → <b>Medium (Med)</b>.</div>
-        <div class="step">5. Tap <b>Humidity Delay</b> → <b>10 min</b>.</div>
-        <div class="step">6. Tap <b>Set Temperature</b> → <b>19°C</b>.</div>
-        <div class="step">That's it! Enjoy a cool, fresh home in summer.</div>
+        <b>SUMMER Setup:</b>
+        <div class="step">1. Tap <b>Fan</b> ➔ Set <b>2–3 bars</b>.</div>
+        <div class="step">2. Menu ➔ <b>Heat Recovery</b> ➔ <b>OFF</b>.</div>
+        <div class="step">3. Menu ➔ <b>Heat Retention</b> ➔ <b>OFF</b>.</div>
+        <div class="step">4. Menu ➔ <b>Humidity Sensitivity</b> ➔ <b>Medium (Med)</b>.</div>
+        <div class="step">5. Menu ➔ <b>Humidity Delay</b> ➔ <b>10 min</b>.</div>
+        <div class="step">6. Menu ➔ <b>Set Temperature</b> ➔ <b>19°C</b>.</div>
+        <div class="step" style="margin-top:7px;">Keeps your home fresh and cool in summer.</div>
         `;
       } else {
-        seasonDiv.textContent = "Current Season: Shoulder (Spring/Autumn)";
+        seasonDiv.textContent = "🌱 Shoulder Season (Spring/Autumn)";
         winterRow.style.display = "";
         summerRow.style.display = "";
         winterRow.style.fontWeight = "normal";
         summerRow.style.fontWeight = "normal";
         inst.innerHTML = `
-        <b>Quick Setup – Shoulder Season</b><br>
-        <div class="step">Try <b>Winter</b> settings if mornings are cold or condensation appears.</div>
-        <div class="step">Try <b>Summer</b> settings if home is stuffy or too warm.</div>
-        <div class="step">Adjust <b>Fan Speed</b> and <b>Set Temperature</b> as needed.</div>
-        <div class="step">Fine-tune for comfort!</div>
+        <b>SHOULDER Season:</b>
+        <div class="step">Use <b>Winter</b> settings if mornings are cold or windows fog up.</div>
+        <div class="step">Use <b>Summer</b> settings if house feels stuffy or too warm.</div>
+        <div class="step">Adjust <b>Fan</b> and <b>Temperature</b> for comfort.</div>
         `;
       }
     }
