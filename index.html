@@ -2,110 +2,38 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>DVS Simple Seasonal Settings – NZ</title>
+  <title>DVS Seasonal Settings – Exact Steps (NZ)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
   <style>
-    html, body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background: #f4f7fb;
-      margin: 0;
-      padding: 0;
-    }
-    .container {
-      max-width: 440px;
-      margin: 0 auto;
-      background: #fff;
-      border-radius: 18px;
-      box-shadow: 0 2px 20px #2d415a18;
-      padding: 24px 7vw 22px 7vw;
-      margin-top: 20px;
-      margin-bottom: 20px;
-    }
-    h1 {
-      text-align: center;
-      color: #1b375a;
-      font-size: 1.19em;
-      letter-spacing: 0.03em;
-      margin-bottom: 13px;
-    }
-    .season {
-      text-align: center;
-      font-size: 1.12em;
-      margin: 9px 0 21px 0;
-      color: #19787f;
-      font-weight: 600;
-    }
-    .table-wrap {
-      width: 100%;
-      overflow-x: auto;
-      margin-bottom: 12px;
-      border-radius: 12px;
-      background: #f7fafc;
-      box-shadow: 0 1px 5px #22334412;
-    }
-    table {
-      min-width: 490px;
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 1em;
-    }
-    th, td {
-      padding: 12px 7px;
-      text-align: center;
-    }
-    th {
-      background: #e6effa;
-      color: #215080;
-      font-weight: 700;
-      font-size: 1em;
-    }
-    tr {
-      font-size: 1.03em;
-    }
+    html, body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f7fb; margin: 0; padding: 0;}
+    .container { max-width: 460px; background: #fff; margin: 0 auto; border-radius: 18px; box-shadow: 0 2px 18px #2d415a17; padding: 25px 8vw 20px 8vw; margin-top: 16px; margin-bottom: 18px;}
+    h1 { text-align: center; color: #18395d; font-size: 1.13em; margin-bottom: 9px;}
+    .season { text-align: center; font-size: 1.09em; margin: 9px 0 18px 0; color: #19787f; font-weight: 600;}
+    .table-wrap { width: 100%; overflow-x: auto; margin-bottom: 11px; border-radius: 11px; background: #f8fafc; }
+    table { min-width: 505px; width: 100%; border-collapse: collapse; font-size: 1em;}
+    th, td { padding: 12px 7px; text-align: center;}
+    th { background: #e6effa; color: #215080; font-weight: 700;}
     tr:nth-child(even) { background: #f4f9fb; }
     tr:nth-child(odd) { background: #fff; }
-    .instructions {
-      background: #f9fafc;
-      border: 1px solid #d5e2ef;
-      border-radius: 12px;
-      padding: 14px 9px 14px 17px;
-      margin-top: 19px;
-      font-size: 1.04em;
-      line-height: 1.6;
-      color: #223042;
-      box-shadow: 0 2px 8px #a3bbcc11;
-    }
-    .step {
-      margin-bottom: 8px;
-      font-size: 1.06em;
-    }
+    .instructions { background: #f9fafc; border: 1px solid #d5e2ef; border-radius: 12px; padding: 15px 10px 17px 13px; margin-top: 20px; font-size: 1.04em; line-height: 1.68; color: #223042; box-shadow: 0 2px 8px #a3bbcc12;}
+    .step { margin-bottom: 12px; font-size: 1.06em;}
+    .step b { color: #154d83;}
     @media (max-width: 600px) {
-      .container {
-        max-width: 99vw;
-        padding: 12px 2vw 18px 2vw;
-      }
-      .table-wrap {
-        margin: 0 -2vw 8px -2vw;
-      }
-      th, td {
-        padding: 11px 3px;
-        font-size: 0.98em;
-      }
-      .instructions {
-        padding: 11px 5px 13px 8px;
-      }
+      .container { max-width: 99vw; padding: 14px 1.2vw 14px 1.2vw;}
+      .table-wrap { margin: 0 -1.5vw 8px -1.5vw; }
+      th, td { padding: 10px 2px; font-size: 0.98em;}
+      .instructions { padding: 9px 5px 13px 8px;}
+      h1 { font-size: 1em;}
     }
     @media (max-width: 450px) {
-      h1 { font-size: 1.05em; }
-      .season { font-size: 1em;}
-      .instructions { font-size: 0.98em;}
-      table { min-width: 480px;}
+      table { min-width: 500px;}
+      .instructions { font-size: 0.96em;}
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>DVS Simple Settings<br>(NZ – Mobile Ready)</h1>
+    <h1>DVS Simple Settings – Step-by-Step (NZ)</h1>
     <div class="season" id="season"></div>
     <div class="table-wrap">
       <table>
@@ -135,20 +63,14 @@
         </tr>
       </table>
     </div>
-    <div class="instructions" id="instructions">
-      <!-- Steps will be inserted here -->
-    </div>
+    <div class="instructions" id="instructions"></div>
   </div>
   <script>
-    // Determine NZ season by browser date (Winter: Jun–Aug, Summer: Dec–Feb)
     function getNZSeason() {
       const now = new Date();
-      let month = now.getUTCMonth() + 1; // 1–12
-      // For New Zealand local time: UTC+12 or +13
-      // This will work correctly for most use
+      let month = now.getUTCMonth() + 1;
       const hour = now.getUTCHours();
       if (hour < 12) {
-        // If before midday UTC, NZ is already on next day for late hours
         if (now.getUTCDate() === new Date(now.getUTCFullYear(), now.getUTCMonth()+1, 0).getDate()) {
           month = (month % 12) + 1;
         }
@@ -169,28 +91,96 @@
         winterRow.style.fontWeight = "bold";
         summerRow.style.display = "none";
         inst.innerHTML = `
-        <b>WINTER Setup:</b>
-        <div class="step">1. Tap <b>Fan</b> ➔ Set <b>3–4 bars</b>.</div>
-        <div class="step">2. Menu ➔ <b>Heat Recovery</b> ➔ <b>ON (7 bars)</b>.</div>
-        <div class="step">3. Menu ➔ <b>Heat Retention</b> ➔ <b>OFF</b>.</div>
-        <div class="step">4. Menu ➔ <b>Humidity Sensitivity</b> ➔ <b>High (Hi)</b>.</div>
-        <div class="step">5. Menu ➔ <b>Humidity Delay</b> ➔ <b>Instant</b>.</div>
-        <div class="step">6. Menu ➔ <b>Set Temperature</b> ➔ <b>23°C</b>.</div>
-        <div class="step" style="margin-top:7px;">Windows will stay clear and home stays warm!</div>
+        <b>Exact Steps – WINTER:</b>
+        <div class="step">1. <b>Set Fan Speed:</b><br>
+          &nbsp;&nbsp;• Press <b>FAN</b> button.<br>
+          &nbsp;&nbsp;• Press <b>UP</b> or <b>DOWN</b> arrows to set to <b>3–4 bars</b>.<br>
+          &nbsp;&nbsp;• Wait 2 seconds for screen to confirm.
+        </div>
+        <div class="step">2. <b>Turn ON Heat Recovery:</b><br>
+          &nbsp;&nbsp;• Press <b>MENU</b>.<br>
+          &nbsp;&nbsp;• Use <b>DOWN</b> arrow to scroll to <b>HEAT RECOVERY</b>.<br>
+          &nbsp;&nbsp;• Press <b>OK/SELECT</b>.<br>
+          &nbsp;&nbsp;• Press <b>UP</b> arrow to fill all 7 bars.<br>
+          &nbsp;&nbsp;• Press <b>OK/SELECT</b> to save.
+        </div>
+        <div class="step">3. <b>Turn OFF Heat Retention:</b><br>
+          &nbsp;&nbsp;• Press <b>MENU</b>.<br>
+          &nbsp;&nbsp;• Scroll to <b>HEAT RETENTION</b>.<br>
+          &nbsp;&nbsp;• Press <b>OK/SELECT</b>.<br>
+          &nbsp;&nbsp;• Press <b>DOWN</b> arrow to <b>0 bars (OFF)</b>.<br>
+          &nbsp;&nbsp;• Press <b>OK/SELECT</b>.
+        </div>
+        <div class="step">4. <b>Set Humidity Sensitivity to HIGH:</b><br>
+          &nbsp;&nbsp;• Press <b>MENU</b>.<br>
+          &nbsp;&nbsp;• Scroll to <b>HUMIDITY SENSITIVITY</b>.<br>
+          &nbsp;&nbsp;• Press <b>OK/SELECT</b>.<br>
+          &nbsp;&nbsp;• Press <b>UP</b> arrow to <b>HIGH</b>.<br>
+          &nbsp;&nbsp;• Press <b>OK/SELECT</b>.
+        </div>
+        <div class="step">5. <b>Set Humidity Delay to INSTANT:</b><br>
+          &nbsp;&nbsp;• Press <b>MENU</b>.<br>
+          &nbsp;&nbsp;• Scroll to <b>HUMIDITY DELAY</b>.<br>
+          &nbsp;&nbsp;• Press <b>OK/SELECT</b>.<br>
+          &nbsp;&nbsp;• Press <b>DOWN</b> until it shows <b>INSTANT</b>.<br>
+          &nbsp;&nbsp;• Press <b>OK/SELECT</b>.
+        </div>
+        <div class="step">6. <b>Set Temperature to 23°C:</b><br>
+          &nbsp;&nbsp;• Press <b>MENU</b>.<br>
+          &nbsp;&nbsp;• Scroll to <b>TEMPERATURE</b> or <b>SET TEMPERATURE</b>.<br>
+          &nbsp;&nbsp;• Press <b>OK/SELECT</b>.<br>
+          &nbsp;&nbsp;• Use <b>UP/DOWN</b> arrows to <b>23°C</b>.<br>
+          &nbsp;&nbsp;• Press <b>OK/SELECT</b>.
+        </div>
+        <div class="step" style="margin-top:9px;">Done! Your DVS is now optimised for winter and window condensation should disappear.</div>
         `;
       } else if (season === "Summer") {
         seasonDiv.textContent = "☀️ SUMMER (December–February)";
         summerRow.style.fontWeight = "bold";
         winterRow.style.display = "none";
         inst.innerHTML = `
-        <b>SUMMER Setup:</b>
-        <div class="step">1. Tap <b>Fan</b> ➔ Set <b>2–3 bars</b>.</div>
-        <div class="step">2. Menu ➔ <b>Heat Recovery</b> ➔ <b>OFF</b>.</div>
-        <div class="step">3. Menu ➔ <b>Heat Retention</b> ➔ <b>OFF</b>.</div>
-        <div class="step">4. Menu ➔ <b>Humidity Sensitivity</b> ➔ <b>Medium (Med)</b>.</div>
-        <div class="step">5. Menu ➔ <b>Humidity Delay</b> ➔ <b>10 min</b>.</div>
-        <div class="step">6. Menu ➔ <b>Set Temperature</b> ➔ <b>19°C</b>.</div>
-        <div class="step" style="margin-top:7px;">Keeps your home fresh and cool in summer.</div>
+        <b>Exact Steps – SUMMER:</b>
+        <div class="step">1. <b>Set Fan Speed:</b><br>
+          &nbsp;&nbsp;• Press <b>FAN</b> button.<br>
+          &nbsp;&nbsp;• Use <b>UP/DOWN</b> arrows to set <b>2–3 bars</b>.<br>
+          &nbsp;&nbsp;• Wait 2 seconds for screen to confirm.
+        </div>
+        <div class="step">2. <b>Turn OFF Heat Recovery:</b><br>
+          &nbsp;&nbsp;• Press <b>MENU</b>.<br>
+          &nbsp;&nbsp;• Use <b>DOWN</b> arrow to <b>HEAT RECOVERY</b>.<br>
+          &nbsp;&nbsp;• Press <b>OK/SELECT</b>.<br>
+          &nbsp;&nbsp;• Press <b>DOWN</b> arrow to <b>0 bars (OFF)</b>.<br>
+          &nbsp;&nbsp;• Press <b>OK/SELECT</b>.
+        </div>
+        <div class="step">3. <b>Turn OFF Heat Retention:</b><br>
+          &nbsp;&nbsp;• Press <b>MENU</b>.<br>
+          &nbsp;&nbsp;• Scroll to <b>HEAT RETENTION</b>.<br>
+          &nbsp;&nbsp;• Press <b>OK/SELECT</b>.<br>
+          &nbsp;&nbsp;• Press <b>DOWN</b> arrow to <b>0 bars (OFF)</b>.<br>
+          &nbsp;&nbsp;• Press <b>OK/SELECT</b>.
+        </div>
+        <div class="step">4. <b>Set Humidity Sensitivity to MEDIUM:</b><br>
+          &nbsp;&nbsp;• Press <b>MENU</b>.<br>
+          &nbsp;&nbsp;• Scroll to <b>HUMIDITY SENSITIVITY</b>.<br>
+          &nbsp;&nbsp;• Press <b>OK/SELECT</b>.<br>
+          &nbsp;&nbsp;• Use <b>UP/DOWN</b> arrows to <b>MEDIUM</b>.<br>
+          &nbsp;&nbsp;• Press <b>OK/SELECT</b>.
+        </div>
+        <div class="step">5. <b>Set Humidity Delay to 10 min:</b><br>
+          &nbsp;&nbsp;• Press <b>MENU</b>.<br>
+          &nbsp;&nbsp;• Scroll to <b>HUMIDITY DELAY</b>.<br>
+          &nbsp;&nbsp;• Press <b>OK/SELECT</b>.<br>
+          &nbsp;&nbsp;• Use <b>UP/DOWN</b> to <b>10 min</b>.<br>
+          &nbsp;&nbsp;• Press <b>OK/SELECT</b>.
+        </div>
+        <div class="step">6. <b>Set Temperature to 19°C:</b><br>
+          &nbsp;&nbsp;• Press <b>MENU</b>.<br>
+          &nbsp;&nbsp;• Scroll to <b>TEMPERATURE</b> or <b>SET TEMPERATURE</b>.<br>
+          &nbsp;&nbsp;• Press <b>OK/SELECT</b>.<br>
+          &nbsp;&nbsp;• Use <b>UP/DOWN</b> arrows to <b>19°C</b>.<br>
+          &nbsp;&nbsp;• Press <b>OK/SELECT</b>.
+        </div>
+        <div class="step" style="margin-top:9px;">Done! DVS is set for cool, dry, and fresh summer comfort.</div>
         `;
       } else {
         seasonDiv.textContent = "🌱 Shoulder Season (Spring/Autumn)";
@@ -199,10 +189,10 @@
         winterRow.style.fontWeight = "normal";
         summerRow.style.fontWeight = "normal";
         inst.innerHTML = `
-        <b>SHOULDER Season:</b>
-        <div class="step">Use <b>Winter</b> settings if mornings are cold or windows fog up.</div>
-        <div class="step">Use <b>Summer</b> settings if house feels stuffy or too warm.</div>
-        <div class="step">Adjust <b>Fan</b> and <b>Temperature</b> for comfort.</div>
+        <b>Shoulder Season Tips:</b>
+        <div class="step">If mornings are cold or windows fog, use <b>Winter</b> steps.</div>
+        <div class="step">If house is stuffy or warm, use <b>Summer</b> steps.</div>
+        <div class="step">Adjust <b>Fan</b> and <b>Temperature</b> as needed for comfort.</div>
         `;
       }
     }
