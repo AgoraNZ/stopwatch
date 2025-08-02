@@ -2,89 +2,79 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>DVS Seasonal Setup – Simple Steps (NZ)</title>
+  <title>DVS Setup Wizard (NZ)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <style>
-    body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background: #f4f7fb;
-      margin: 0;
-      padding: 0;
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f7fb; margin: 0; padding: 0;}
+    .container { max-width: 420px; margin: 0 auto; background: #fff; border-radius: 18px; box-shadow: 0 2px 20px #2d415a19; padding: 24px 6vw 18px 6vw; margin-top: 28px;}
+    h1 { text-align: center; color: #154b6d; font-size: 1.16em; margin-bottom: 16px;}
+    .season-btns { display: flex; flex-direction: column; gap: 18px; margin: 18px 0;}
+    .season-btn {
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.15em; font-weight: bold;
+      padding: 17px 0; border-radius: 14px;
+      border: none; cursor: pointer; transition: box-shadow 0.2s, background 0.2s;
+      box-shadow: 0 2px 10px #b0c4d711;
+      background: #e8f1fa;
+      color: #105478;
     }
-    .container {
-      max-width: 440px;
-      margin: 0 auto;
-      background: #fff;
-      border-radius: 16px;
-      box-shadow: 0 2px 18px #2233440e;
-      padding: 21px 6vw 18px 6vw;
-      margin-top: 18px;
-      margin-bottom: 14px;
+    .season-btn.active, .season-btn:focus { background: #cbefff; box-shadow: 0 2px 16px #92ccf6b5; outline: none;}
+    .season-btn.recommended { border: 2.5px solid #1798bc; background: #d4f4ff;}
+    .wizard-step { text-align: center; margin-top: 25px;}
+    .wizard-title { color: #137076; font-size: 1.08em; margin-bottom: 18px; font-weight: 600;}
+    .wizard-action { font-size: 1.21em; color: #124a74; font-weight: 500; margin-bottom: 13px;}
+    .wizard-desc { color: #3b566a; font-size: 1.05em; margin-bottom: 16px;}
+    .wizard-nav { display: flex; justify-content: center; gap: 15px; margin-top: 18px;}
+    .wiz-btn {
+      font-size: 1.07em; font-weight: bold; padding: 12px 28px;
+      border-radius: 11px; border: none;
+      background: #e0f5fb; color: #115473; cursor: pointer;
+      box-shadow: 0 1px 8px #b7d2df1a; margin: 0 7px;
+      transition: background 0.18s;
     }
-    h1 {
-      text-align: center;
-      color: #14476d;
-      font-size: 1.13em;
-      margin-bottom: 9px;
-      font-weight: 600;
-    }
-    .season {
-      text-align: center;
-      font-size: 1.09em;
-      color: #15778b;
-      font-weight: 500;
-      margin-bottom: 19px;
-      letter-spacing: 0.01em;
-    }
-    .block {
-      margin: 17px 0 15px 0;
-      padding: 15px 12px 12px 12px;
-      background: #f8fbfd;
-      border-radius: 12px;
-      border: 1px solid #e2ebf4;
-      box-shadow: 0 1px 7px #b8c2d220;
-    }
-    .block h2 {
-      font-size: 1em;
-      margin: 0 0 7px 0;
-      color: #175c7c;
-      font-weight: 600;
-      letter-spacing: 0.01em;
-    }
-    ul, .steps {
-      padding-left: 17px;
-      margin: 0;
-      font-size: 1.05em;
-      line-height: 1.75;
-      color: #234050;
-    }
-    li, .step {
-      margin-bottom: 8px;
-    }
-    .label {
-      color: #0b4267;
-      font-weight: 600;
-      font-size: 1.02em;
-    }
-    .hint {
-      color: #7b95a3;
-      font-size: 0.95em;
-      margin-top: 5px;
-      display: block;
-    }
+    .wiz-btn:active, .wiz-btn:focus { background: #bfe8f9;}
+    .showall { margin: 24px auto 0 auto; display: block; font-size: 1em; color: #19719b; background: none; border: none; text-decoration: underline; cursor: pointer;}
+    .allsteps { background: #f6fafc; padding: 13px 8px; border-radius: 12px; margin-top: 17px;}
     @media (max-width: 600px) {
-      .container { padding: 13px 2vw 15px 2vw; }
-      .block { padding: 11px 4vw 9px 4vw;}
+      .container { padding: 11px 2vw 12px 2vw;}
+      .season-btn { font-size: 1.09em; padding: 14px 0;}
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>DVS Seasonal Settings (EC Controller)</h1>
-    <div class="season" id="season"></div>
-    <div id="instructions"></div>
+    <h1>DVS Easy Seasonal Setup (NZ)</h1>
+    <div id="main"></div>
   </div>
   <script>
+    // Data for each season's steps
+    const SEASON_STEPS = {
+      Winter: [
+        { title: "Set DAY Profile", action: "Go to MENU → System → Profiles → Day", desc: "Press OK." },
+        { title: "Set Day Temp", action: "Choose 'Set Temp' → 23°C", desc: "Use arrow keys, then OK." },
+        { title: "Day Fan Control", action: "Select 'Fan Control'", desc: "Set: Fan Speed 3–4 bars, Heat Recovery ON (all 7 bars), Heat Retention OFF (0 bars)." },
+        { title: "Set NIGHT Profile", action: "Select 'Night' in Profiles", desc: "Press OK." },
+        { title: "Set Night Temp", action: "Choose 'Set Temp' → 23°C", desc: "Use arrow keys, then OK." },
+        { title: "Night Fan Control", action: "Select 'Fan Control'", desc: "Set: Fan Speed 3–4 bars, Heat Recovery ON, Heat Retention OFF." },
+        { title: "Humidity Settings", action: "MENU → Hum. Settings", desc: "Set Sensitivity: High (Hi).<br>Set Time: Instant." }
+      ],
+      Summer: [
+        { title: "Set DAY Profile", action: "Go to MENU → System → Profiles → Day", desc: "Press OK." },
+        { title: "Set Day Temp", action: "Choose 'Set Temp' → 19°C", desc: "Use arrow keys, then OK." },
+        { title: "Day Fan Control", action: "Select 'Fan Control'", desc: "Set: Fan Speed 2–3 bars, Heat Recovery OFF (0 bars), Heat Retention OFF (0 bars)." },
+        { title: "Set NIGHT Profile", action: "Select 'Night' in Profiles", desc: "Press OK." },
+        { title: "Set Night Temp", action: "Choose 'Set Temp' → 19°C", desc: "Use arrow keys, then OK." },
+        { title: "Night Fan Control", action: "Select 'Fan Control'", desc: "Set: Fan Speed 2–3 bars, Heat Recovery OFF, Heat Retention OFF." },
+        { title: "Humidity Settings", action: "MENU → Hum. Settings", desc: "Set Sensitivity: Medium (Med).<br>Set Time: 10 min." }
+      ]
+    };
+    // Friendly names & emojis
+    const SEASON_META = {
+      Winter: { name: "Winter", emoji: "❄️", tip: "Recommended for June–August" },
+      Summer: { name: "Summer", emoji: "☀️", tip: "Recommended for December–February" },
+      Custom: { name: "Custom / Help", emoji: "🛠️", tip: "Use if you want to adjust for Spring/Autumn" }
+    };
+    // Detect NZ season (simplified)
     function getNZSeason() {
       const now = new Date();
       let month = now.getUTCMonth() + 1;
@@ -96,81 +86,74 @@
       }
       if (month === 12 || month === 1 || month === 2) return "Summer";
       if (month >= 6 && month <= 8) return "Winter";
-      if (month >= 3 && month <= 5) return "Autumn";
-      return "Spring";
+      return "Custom";
     }
-    function stepsBlock(profile, fan, recovery, retention, temp) {
-      return `
-        <h2>${profile} Profile</h2>
-        <ul>
-          <li><span class="label">Set Temperature:</span> MENU → System → Profiles → <b>${profile}</b> → Set Temp → arrows to <b>${temp}°C</b> → OK</li>
-          <li><span class="label">Fan Control:</span> Fan Speed: <b>${fan}</b> | Heat Recovery: <b>${recovery}</b> | Heat Retention: <b>${retention}</b></li>
-          <li class="hint">MENU → System → Profiles → ${profile} → Fan Control</li>
-        </ul>
-      `;
-    }
-    function humBlock(sens, delay) {
-      return `
-        <h2>Humidity Settings</h2>
-        <ul>
-          <li><span class="label">Sensitivity:</span> <b>${sens}</b></li>
-          <li><span class="label">Time:</span> <b>${delay}</b></li>
-          <li class="hint">MENU → Hum. Settings</li>
-        </ul>
-      `;
-    }
-    function updateUI() {
-      const season = getNZSeason();
-      document.getElementById('season').textContent =
-        season === "Winter" ? "❄️ WINTER (June–August)" :
-        season === "Summer" ? "☀️ SUMMER (Dec–Feb)" :
-        "🌱 Shoulder Season (Spring/Autumn)";
-      let out = "";
-      if (season === "Winter") {
-        out += `
-          <div class="block">
-            ${stepsBlock("Day", "3–4 bars", "ON (7 bars)", "OFF", 23)}
-            ${stepsBlock("Night", "3–4 bars", "ON (7 bars)", "OFF", 23)}
+    // State
+    let selected = getNZSeason();
+    let step = 0;
+    let showAll = false;
+    // Render
+    function render() {
+      const main = document.getElementById('main');
+      if (step === 0 && !showAll) {
+        // Season selection screen
+        main.innerHTML = `
+          <div style="text-align:center; font-size:1.05em; margin-bottom: 4px;">
+            <b>Select your season:</b>
           </div>
-          <div class="block">
-            ${humBlock("High (Hi)", "Instant")}
+          <div class="season-btns">
+            <button class="season-btn${selected==="Winter"?" recommended active":""}" onclick="selectSeason('Winter')">❄️ Winter<br><span style='font-size:0.9em; font-weight:400'>June–August</span></button>
+            <button class="season-btn${selected==="Summer"?" recommended active":""}" onclick="selectSeason('Summer')">☀️ Summer<br><span style='font-size:0.9em; font-weight:400'>Dec–Feb</span></button>
+            <button class="season-btn${selected==="Custom"?" active":""}" onclick="selectSeason('Custom')">🛠️ Spring/Autumn or Custom</button>
           </div>
-          <div class="block" style="margin-top:8px;">
-            <div class="step"><b>After setting Day, repeat for Night profile.</b></div>
-            <div class="step">To switch, from Home screen: MENU → System → Profiles → select Day or Night.</div>
-            <div class="step" style="color:#6b8c98;">Windows should stay clear and home stays warm!</div>
+          <div style="text-align:center; margin:18px 0 10px 0;">
+            <button class="wiz-btn" onclick="startWizard()">Start Setup</button>
           </div>
+          <button class="showall" onclick="showAllSteps()">Show all steps for all seasons</button>
         `;
-      } else if (season === "Summer") {
-        out += `
-          <div class="block">
-            ${stepsBlock("Day", "2–3 bars", "OFF", "OFF", 19)}
-            ${stepsBlock("Night", "2–3 bars", "OFF", "OFF", 19)}
-          </div>
-          <div class="block">
-            ${humBlock("Medium (Med)", "10 min")}
-          </div>
-          <div class="block" style="margin-top:8px;">
-            <div class="step"><b>After setting Day, repeat for Night profile.</b></div>
-            <div class="step">To switch, from Home screen: MENU → System → Profiles → select Day or Night.</div>
-            <div class="step" style="color:#6b8c98;">Keeps your home fresh and cool in summer.</div>
+      } else if (!showAll) {
+        // Wizard step
+        let steps = selected === "Custom" ? SEASON_STEPS.Winter : SEASON_STEPS[selected];
+        if (selected === "Custom") {
+          steps = [
+            { title: "Choose a base:", action: "Most use Winter settings for cold/damp, Summer for hot/stuffy.", desc: "Select above, or set your own preferences." }
+          ];
+        }
+        const curr = steps[step - 1];
+        main.innerHTML = `
+          <div class="wizard-step">
+            <div class="wizard-title">${curr.title}</div>
+            <div class="wizard-action">${curr.action}</div>
+            <div class="wizard-desc">${curr.desc}</div>
+            <div class="wizard-nav">
+              ${step > 1 ? `<button class="wiz-btn" onclick="prevStep()">Back</button>` : ""}
+              ${step < steps.length ? `<button class="wiz-btn" onclick="nextStep()">Next</button>` : `<button class="wiz-btn" onclick="resetWizard()">Finish</button>`}
+            </div>
+            <button class="showall" onclick="showAllSteps()">Show all steps</button>
           </div>
         `;
       } else {
-        out += `
-          <div class="block">
-            <h2>Tips for Spring/Autumn</h2>
-            <div class="steps">
-              <div class="step">If cold mornings or condensation: use <b>Winter</b> settings.</div>
-              <div class="step">If stuffy/warm: use <b>Summer</b> settings.</div>
-              <div class="step">Adjust Fan and Temperature for comfort.</div>
-            </div>
+        // All steps
+        main.innerHTML = `
+          <div class="allsteps">
+            <b>Winter:</b>
+            <ol>${SEASON_STEPS.Winter.map(s=>`<li><b>${s.title}:</b> ${s.action} <span style="color:#597b96">${s.desc}</span></li>`).join('')}</ol>
+            <b>Summer:</b>
+            <ol>${SEASON_STEPS.Summer.map(s=>`<li><b>${s.title}:</b> ${s.action} <span style="color:#597b96">${s.desc}</span></li>`).join('')}</ol>
+            <button class="wiz-btn" onclick="resetWizard()" style="margin:13px auto 0 auto;display:block;">Back</button>
           </div>
         `;
       }
-      document.getElementById('instructions').innerHTML = out;
     }
-    updateUI();
+    // Event functions
+    window.selectSeason = function(s) { selected = s; render(); }
+    window.startWizard = function() { step = 1; render(); }
+    window.nextStep = function() { step += 1; render(); }
+    window.prevStep = function() { step -= 1; render(); }
+    window.showAllSteps = function() { showAll = true; render(); }
+    window.resetWizard = function() { step = 0; showAll = false; render(); }
+    // Initial render
+    render();
   </script>
 </body>
 </html>
